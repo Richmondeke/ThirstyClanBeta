@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "156537805594",
+    "project_id": "thirsty-32962",
+    "storage_bucket": "thirsty-32962.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156537805594:android:80403ed9ebb7887aadeaa3",
+        "android_client_info": {
+          "package_name": "com.flutterflow.thirsty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156537805594-0462bajel6bcvjlp9lknfjh6ups3u2fa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterflow.thirsty",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "156537805594-ueqtcg9ua55b602eop6pbl68jb3tu44b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvFQcOnw6zSOhDzV16N2RWqr2PDwus-yI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156537805594-ueqtcg9ua55b602eop6pbl68jb3tu44b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "156537805594-dcu08padf49sae3pkc1a1qdb74v05sf6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutterflow.weddingapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156537805594:android:c090753435e82b18adeaa3",
+        "android_client_info": {
+          "package_name": "com.flutterflow.weddingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156537805594-ueqtcg9ua55b602eop6pbl68jb3tu44b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvFQcOnw6zSOhDzV16N2RWqr2PDwus-yI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156537805594-ueqtcg9ua55b602eop6pbl68jb3tu44b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "156537805594-dcu08padf49sae3pkc1a1qdb74v05sf6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutterflow.weddingapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
