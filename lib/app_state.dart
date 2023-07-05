@@ -16,22 +16,26 @@ class FFAppState extends ChangeNotifier {
 
   Future initializePersistedState() async {
     prefs = await SharedPreferences.getInstance();
-    _Cartitems = prefs.getStringList('ff_Cartitems')?.map((x) {
-          try {
-            return jsonDecode(x);
-          } catch (e) {
-            print("Can't decode persisted json. Error: $e.");
-            return {};
-          }
-        }).toList() ??
-        _Cartitems;
-    if (prefs.containsKey('ff_NewCart')) {
-      try {
-        _NewCart = jsonDecode(prefs.getString('ff_NewCart') ?? '');
-      } catch (e) {
-        print("Can't decode persisted json. Error: $e.");
+    _safeInit(() {
+      _Cartitems = prefs.getStringList('ff_Cartitems')?.map((x) {
+            try {
+              return jsonDecode(x);
+            } catch (e) {
+              print("Can't decode persisted json. Error: $e.");
+              return {};
+            }
+          }).toList() ??
+          _Cartitems;
+    });
+    _safeInit(() {
+      if (prefs.containsKey('ff_NewCart')) {
+        try {
+          _NewCart = jsonDecode(prefs.getString('ff_NewCart') ?? '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
       }
-    }
+    });
   }
 
   void update(VoidCallback callback) {
@@ -61,9 +65,9 @@ class FFAppState extends ChangeNotifier {
 
   void updateCartAtIndex(
     int _index,
-    Function(DocumentReference) updateFn,
+    DocumentReference Function(DocumentReference) updateFn,
   ) {
-    updateFn(_cart[_index]);
+    _cart[_index] = updateFn(_cart[_index]);
   }
 
   int _sum = 0;
@@ -118,9 +122,9 @@ class FFAppState extends ChangeNotifier {
 
   void updateCartitemsAtIndex(
     int _index,
-    Function(dynamic) updateFn,
+    dynamic Function(dynamic) updateFn,
   ) {
-    updateFn(_Cartitems[_index]);
+    _Cartitems[_index] = updateFn(_Cartitems[_index]);
     prefs.setStringList(
         'ff_Cartitems', _Cartitems.map((x) => jsonEncode(x)).toList());
   }
@@ -141,4 +145,16 @@ LatLng? _latLngFromString(String? val) {
   final lat = double.parse(split.first);
   final lng = double.parse(split.last);
   return LatLng(lat, lng);
+}
+
+void _safeInit(Function() initializeField) {
+  try {
+    initializeField();
+  } catch (_) {}
+}
+
+Future _safeInitAsync(Function() initializeField) async {
+  try {
+    await initializeField();
+  } catch (_) {}
 }

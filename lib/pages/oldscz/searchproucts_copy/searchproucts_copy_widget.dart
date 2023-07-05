@@ -37,6 +37,7 @@ class _SearchprouctsCopyWidgetState extends State<SearchprouctsCopyWidget> {
     _model = createModel(context, () => SearchprouctsCopyModel());
 
     _model.textController ??= TextEditingController(text: widget.searchTerm);
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -60,7 +61,7 @@ class _SearchprouctsCopyWidgetState extends State<SearchprouctsCopyWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 1.0,
+                width: MediaQuery.sizeOf(context).width * 1.0,
                 height: 160.0,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -132,7 +133,7 @@ class _SearchprouctsCopyWidgetState extends State<SearchprouctsCopyWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.pushNamed('checkoutpage');
+                                context.pushNamed('Cart');
                               },
                               child: badges.Badge(
                                 badgeContent: Text(
@@ -371,16 +372,13 @@ class _SearchprouctsCopyWidgetState extends State<SearchprouctsCopyWidget> {
                             highlightColor: Colors.transparent,
                             onTap: () async {
                               context.pushNamed(
-                                'Productdetails',
-                                queryParams: {
-                                  'products1': serializeParam(
-                                    listViewProductsRecord,
-                                    ParamType.Document,
+                                'Mainproductdetails',
+                                queryParameters: {
+                                  'productId': serializeParam(
+                                    listViewProductsRecord.reference,
+                                    ParamType.DocumentReference,
                                   ),
                                 }.withoutNulls,
-                                extra: <String, dynamic>{
-                                  'products1': listViewProductsRecord,
-                                },
                               );
                             },
                             child: Container(

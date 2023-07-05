@@ -28,6 +28,8 @@ class _YayyyWidgetState extends State<YayyyWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => YayyyModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -87,7 +89,7 @@ class _YayyyWidgetState extends State<YayyyWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.pushNamed('checkoutpage');
+                        context.pushNamed('Cart');
                       },
                       child: Container(
                         width: double.infinity,

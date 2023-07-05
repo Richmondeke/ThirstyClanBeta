@@ -22,19 +22,19 @@ class _CompletePasswordChangeWidgetState
   late CompletePasswordChangeModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => CompletePasswordChangeModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -43,7 +43,7 @@ class _CompletePasswordChangeWidgetState
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBtnText,
@@ -92,7 +92,7 @@ class _CompletePasswordChangeWidgetState
                           labelStyle: FlutterFlowTheme.of(context)
                               .titleMedium
                               .override(
-                                fontFamily: 'Sora',
+                                fontFamily: 'Kyrilla',
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
                                         .titleMediumFamily),
@@ -100,7 +100,7 @@ class _CompletePasswordChangeWidgetState
                           indicatorColor: Color(0xFFFC0004),
                           tabs: [
                             Tab(
-                              text: 'Complete Password Change',
+                              text: 'COMPLETE PASSWORD CHANGE',
                             ),
                           ],
                         ),
@@ -126,12 +126,12 @@ class _CompletePasswordChangeWidgetState
                                     ),
                                   ),
                                   Text(
-                                    'Hey Buddy, check your email for a password reset link. Also check your spam box.',
+                                    'HEY BUDDY, CHECK YOUR EMAIL FOR A PASSWORD RESET LINK. ALSO CHECK YOUR SPAM BOX.\n',
                                     textAlign: TextAlign.center,
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'DM Sans',
+                                          fontFamily: 'Kyrilla',
                                           useGoogleFonts: GoogleFonts.asMap()
                                               .containsKey(
                                                   FlutterFlowTheme.of(context)
@@ -158,7 +158,7 @@ class _CompletePasswordChangeWidgetState
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
-                                              fontFamily: 'Sora',
+                                              fontFamily: 'Kyrilla',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,

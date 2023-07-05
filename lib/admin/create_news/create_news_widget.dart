@@ -74,6 +74,8 @@ class _CreateNewsWidgetState extends State<CreateNewsWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -148,6 +150,7 @@ class _CreateNewsWidgetState extends State<CreateNewsWidget>
                             validateFileFormat(m.storagePath, context))) {
                       setState(() => _model.isDataUploading = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
+
                       var downloadUrls = <String>[];
                       try {
                         showUploadMessage(
@@ -460,16 +463,21 @@ class _CreateNewsWidgetState extends State<CreateNewsWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 44.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    final newsCreateData = createNewsRecordData(
+                    var newsRecordReference = NewsRecord.collection.doc();
+                    await newsRecordReference.set(createNewsRecordData(
                       headline: _model.textController1.text,
                       description: _model.descriptionController.text,
                       newsimage: _model.uploadedFileUrl,
                       dateposted: getCurrentTimestamp,
-                    );
-                    var newsRecordReference = NewsRecord.collection.doc();
-                    await newsRecordReference.set(newsCreateData);
+                    ));
                     _model.createdPost = NewsRecord.getDocumentFromData(
-                        newsCreateData, newsRecordReference);
+                        createNewsRecordData(
+                          headline: _model.textController1.text,
+                          description: _model.descriptionController.text,
+                          newsimage: _model.uploadedFileUrl,
+                          dateposted: getCurrentTimestamp,
+                        ),
+                        newsRecordReference);
                     context.pop();
 
                     setState(() {});

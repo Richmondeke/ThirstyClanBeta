@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -77,6 +79,14 @@ class NewReleaseRecord extends FirestoreRecord {
   @override
   String toString() =>
       'NewReleaseRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is NewReleaseRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createNewReleaseRecordData({
@@ -99,4 +109,31 @@ Map<String, dynamic> createNewReleaseRecordData({
   );
 
   return firestoreData;
+}
+
+class NewReleaseRecordDocumentEquality implements Equality<NewReleaseRecord> {
+  const NewReleaseRecordDocumentEquality();
+
+  @override
+  bool equals(NewReleaseRecord? e1, NewReleaseRecord? e2) {
+    return e1?.albumName == e2?.albumName &&
+        e1?.appleMusic == e2?.appleMusic &&
+        e1?.spotify == e2?.spotify &&
+        e1?.artisteName == e2?.artisteName &&
+        e1?.description == e2?.description &&
+        e1?.albumArt == e2?.albumArt;
+  }
+
+  @override
+  int hash(NewReleaseRecord? e) => const ListEquality().hash([
+        e?.albumName,
+        e?.appleMusic,
+        e?.spotify,
+        e?.artisteName,
+        e?.description,
+        e?.albumArt
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is NewReleaseRecord;
 }

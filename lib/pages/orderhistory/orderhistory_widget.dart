@@ -24,7 +24,6 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
   late OrderhistoryModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   final animationsMap = {
     'textOnPageLoadAnimation': AnimationInfo(
@@ -78,13 +77,14 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -93,7 +93,7 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -117,7 +117,7 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
               },
             ),
             title: Text(
-              'Order History',
+              'ORDER HISTORY',
               style: FlutterFlowTheme.of(context).titleMedium.override(
                     fontFamily: 'DM Sans',
                     useGoogleFonts: GoogleFonts.asMap().containsKey(
@@ -158,7 +158,7 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
                   child: Text(
-                    'Your Orders',
+                    'YOUR ORDERS',
                     style: FlutterFlowTheme.of(context).bodySmall,
                   ).animateOnPageLoad(
                       animationsMap['textOnPageLoadAnimation']!),
@@ -168,7 +168,7 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
                   child: StreamBuilder<List<CartRecord>>(
                     stream: queryCartRecord(
                       queryBuilder: (cartRecord) =>
-                          cartRecord.where('status', isEqualTo: 'Paid'),
+                          cartRecord.where('isDelivered', isEqualTo: true),
                     ),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
@@ -219,14 +219,38 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(6.0),
-                                      child: Image.network(
-                                        listViewCartRecord.image,
-                                        width: 80.0,
-                                        height: 80.0,
-                                        fit: BoxFit.cover,
-                                      ),
+                                    StreamBuilder<ProductsRecord>(
+                                      stream: ProductsRecord.getDocument(
+                                          listViewCartRecord.productref!),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50.0,
+                                              height: 50.0,
+                                              child: SpinKitRipple(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                size: 50.0,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        final imageProductsRecord =
+                                            snapshot.data!;
+                                        return ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(6.0),
+                                          child: Image.network(
+                                            imageProductsRecord.productImage,
+                                            width: 80.0,
+                                            height: 80.0,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        );
+                                      },
                                     ),
                                     Expanded(
                                       child: Padding(
@@ -239,13 +263,38 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              listViewCartRecord.product,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                            StreamBuilder<ProductsRecord>(
+                                              stream:
+                                                  ProductsRecord.getDocument(
+                                                      listViewCartRecord
+                                                          .productref!),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 50.0,
+                                                      height: 50.0,
+                                                      child: SpinKitRipple(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        size: 50.0,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                final textProductsRecord =
+                                                    snapshot.data!;
+                                                return Text(
+                                                  textProductsRecord
+                                                      .productName,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .titleMedium
                                                       .override(
-                                                        fontFamily: 'DM Sans',
+                                                        fontFamily: 'Kyrilla',
                                                         useGoogleFonts: GoogleFonts
                                                                 .asMap()
                                                             .containsKey(
@@ -253,6 +302,8 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
                                                                         context)
                                                                     .titleMediumFamily),
                                                       ),
+                                                );
+                                              },
                                             ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
@@ -264,7 +315,7 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
                                                     FlutterFlowTheme.of(context)
                                                         .bodySmall
                                                         .override(
-                                                          fontFamily: 'DM Sans',
+                                                          fontFamily: 'Kyrilla',
                                                           useGoogleFonts: GoogleFonts
                                                                   .asMap()
                                                               .containsKey(
@@ -278,17 +329,48 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      '\$${listViewCartRecord.amount.toString()}',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                            fontFamily: 'DM Sans',
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
+                                    StreamBuilder<ProductsRecord>(
+                                      stream: ProductsRecord.getDocument(
+                                          listViewCartRecord.productref!),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50.0,
+                                              height: 50.0,
+                                              child: SpinKitRipple(
+                                                color:
                                                     FlutterFlowTheme.of(context)
-                                                        .bodySmallFamily),
+                                                        .primary,
+                                                size: 50.0,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        final textProductsRecord =
+                                            snapshot.data!;
+                                        return Text(
+                                          formatNumber(
+                                            textProductsRecord.price,
+                                            formatType: FormatType.decimal,
+                                            decimalType:
+                                                DecimalType.periodDecimal,
+                                            currency: '\$',
                                           ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodySmall
+                                              .override(
+                                                fontFamily: 'DM Sans',
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmallFamily),
+                                              ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),

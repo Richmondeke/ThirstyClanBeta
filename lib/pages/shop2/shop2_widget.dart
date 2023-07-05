@@ -22,19 +22,19 @@ class _Shop2WidgetState extends State<Shop2Widget> {
   late Shop2Model _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => Shop2Model());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -43,7 +43,7 @@ class _Shop2WidgetState extends State<Shop2Widget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -51,7 +51,7 @@ class _Shop2WidgetState extends State<Shop2Widget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 1.0,
+              width: MediaQuery.sizeOf(context).width * 1.0,
               height: 160.0,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -152,7 +152,7 @@ class _Shop2WidgetState extends State<Shop2Widget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              context.pushNamed('checkoutpage');
+                              context.pushNamed('Cart');
                             },
                             child: badges.Badge(
                               badgeContent: Text(
@@ -189,7 +189,7 @@ class _Shop2WidgetState extends State<Shop2Widget> {
                                   size: 30.0,
                                 ),
                                 onPressed: () async {
-                                  context.pushNamed('checkoutpage');
+                                  context.pushNamed('Cart');
                                 },
                               ),
                             ),
@@ -215,7 +215,7 @@ class _Shop2WidgetState extends State<Shop2Widget> {
                     children: [
                       SelectionArea(
                           child: Text(
-                        'Welcome',
+                        'WELCOME',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -276,13 +276,13 @@ class _Shop2WidgetState extends State<Shop2Widget> {
                           indicatorColor: FlutterFlowTheme.of(context).primary,
                           tabs: [
                             Tab(
-                              text: 'Jackets',
+                              text: 'JACKETS',
                             ),
                             Tab(
-                              text: 'Shirts',
+                              text: 'SHIRTS',
                             ),
                             Tab(
-                              text: 'Pants',
+                              text: 'PANTS',
                             ),
                           ],
                         ),
@@ -342,25 +342,16 @@ class _Shop2WidgetState extends State<Shop2Widget> {
                                                     Colors.transparent,
                                                 onTap: () async {
                                                   context.pushNamed(
-                                                    'Productdetails',
-                                                    queryParams: {
-                                                      'products':
+                                                    'Mainproductdetails',
+                                                    queryParameters: {
+                                                      'productId':
                                                           serializeParam(
                                                         listViewProductsRecord
                                                             .reference,
                                                         ParamType
                                                             .DocumentReference,
                                                       ),
-                                                      'products1':
-                                                          serializeParam(
-                                                        listViewProductsRecord,
-                                                        ParamType.Document,
-                                                      ),
                                                     }.withoutNulls,
-                                                    extra: <String, dynamic>{
-                                                      'products1':
-                                                          listViewProductsRecord,
-                                                    },
                                                   );
                                                 },
                                                 child: Container(
@@ -480,25 +471,16 @@ class _Shop2WidgetState extends State<Shop2Widget> {
                                                     Colors.transparent,
                                                 onTap: () async {
                                                   context.pushNamed(
-                                                    'Productdetails',
-                                                    queryParams: {
-                                                      'products':
+                                                    'Mainproductdetails',
+                                                    queryParameters: {
+                                                      'productId':
                                                           serializeParam(
                                                         listViewProductsRecord
                                                             .reference,
                                                         ParamType
                                                             .DocumentReference,
                                                       ),
-                                                      'products1':
-                                                          serializeParam(
-                                                        listViewProductsRecord,
-                                                        ParamType.Document,
-                                                      ),
                                                     }.withoutNulls,
-                                                    extra: <String, dynamic>{
-                                                      'products1':
-                                                          listViewProductsRecord,
-                                                    },
                                                   );
                                                 },
                                                 child: Container(
@@ -618,25 +600,16 @@ class _Shop2WidgetState extends State<Shop2Widget> {
                                                     Colors.transparent,
                                                 onTap: () async {
                                                   context.pushNamed(
-                                                    'Productdetails',
-                                                    queryParams: {
-                                                      'products':
+                                                    'Mainproductdetails',
+                                                    queryParameters: {
+                                                      'productId':
                                                           serializeParam(
                                                         listViewProductsRecord
                                                             .reference,
                                                         ParamType
                                                             .DocumentReference,
                                                       ),
-                                                      'products1':
-                                                          serializeParam(
-                                                        listViewProductsRecord,
-                                                        ParamType.Document,
-                                                      ),
                                                     }.withoutNulls,
-                                                    extra: <String, dynamic>{
-                                                      'products1':
-                                                          listViewProductsRecord,
-                                                    },
                                                   );
                                                 },
                                                 child: Container(

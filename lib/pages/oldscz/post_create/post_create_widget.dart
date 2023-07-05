@@ -74,6 +74,8 @@ class _PostCreateWidgetState extends State<PostCreateWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -103,15 +105,8 @@ class _PostCreateWidgetState extends State<PostCreateWidget>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Create Post',
-                      style:
-                          FlutterFlowTheme.of(context).headlineMedium.override(
-                                fontFamily: 'DM Sans',
-                                fontSize: 20.0,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .headlineMediumFamily),
-                              ),
+                      'CREATE POST',
+                      style: FlutterFlowTheme.of(context).headlineMedium,
                     ),
                     FlutterFlowIconButton(
                       borderColor: Colors.transparent,
@@ -148,6 +143,7 @@ class _PostCreateWidgetState extends State<PostCreateWidget>
                             validateFileFormat(m.storagePath, context))) {
                       setState(() => _model.isDataUploading = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
+
                       var downloadUrls = <String>[];
                       try {
                         showUploadMessage(
@@ -293,7 +289,7 @@ class _PostCreateWidgetState extends State<PostCreateWidget>
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'DM Sans',
+                                  fontFamily: 'Kyrilla',
                                   color: FlutterFlowTheme.of(context).darkText,
                                   useGoogleFonts: GoogleFonts.asMap()
                                       .containsKey(FlutterFlowTheme.of(context)
@@ -353,7 +349,7 @@ class _PostCreateWidgetState extends State<PostCreateWidget>
                               20.0, 24.0, 20.0, 24.0),
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'DM Sans',
+                              fontFamily: 'Kyrilla',
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   FlutterFlowTheme.of(context)
                                       .bodyMediumFamily),
@@ -371,19 +367,27 @@ class _PostCreateWidgetState extends State<PostCreateWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 44.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    final socialPostsCreateData = createSocialPostsRecordData(
+                    var socialPostsRecordReference =
+                        SocialPostsRecord.collection.doc();
+                    await socialPostsRecordReference
+                        .set(createSocialPostsRecordData(
                       postCreated: getCurrentTimestamp,
                       postImage: _model.uploadedFileUrl,
                       postDescription: _model.textController2.text,
                       postDisplayName: currentUserDisplayName,
                       postUserImage: currentUserPhoto,
                       postUser: currentUserReference,
-                    );
-                    var socialPostsRecordReference =
-                        SocialPostsRecord.collection.doc();
-                    await socialPostsRecordReference.set(socialPostsCreateData);
+                    ));
                     _model.createdPost = SocialPostsRecord.getDocumentFromData(
-                        socialPostsCreateData, socialPostsRecordReference);
+                        createSocialPostsRecordData(
+                          postCreated: getCurrentTimestamp,
+                          postImage: _model.uploadedFileUrl,
+                          postDescription: _model.textController2.text,
+                          postDisplayName: currentUserDisplayName,
+                          postUserImage: currentUserPhoto,
+                          postUser: currentUserReference,
+                        ),
+                        socialPostsRecordReference);
                     context.pop();
 
                     setState(() {});

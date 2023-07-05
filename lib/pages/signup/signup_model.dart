@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 class SignupModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // State field(s) for emailAddress widget.
   TextEditingController? emailAddressController;
   String? Function(BuildContext, String?)? emailAddressControllerValidator;
@@ -23,24 +24,32 @@ class SignupModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)?
       emailAddressCreateControllerValidator;
   // State field(s) for password-Create widget.
-  TextEditingController? passwordCreateController;
-  late bool passwordCreateVisibility;
-  String? Function(BuildContext, String?)? passwordCreateControllerValidator;
+  TextEditingController? passwordCreateController1;
+  late bool passwordCreateVisibility1;
+  String? Function(BuildContext, String?)? passwordCreateController1Validator;
+  // State field(s) for password-Create widget.
+  TextEditingController? passwordCreateController2;
+  late bool passwordCreateVisibility2;
+  String? Function(BuildContext, String?)? passwordCreateController2Validator;
 
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {
     passwordVisibility = false;
-    passwordCreateVisibility = false;
+    passwordCreateVisibility1 = false;
+    passwordCreateVisibility2 = false;
   }
 
   void dispose() {
+    unfocusNode.dispose();
     emailAddressController?.dispose();
     passwordController?.dispose();
     emailAddressCreateController?.dispose();
-    passwordCreateController?.dispose();
+    passwordCreateController1?.dispose();
+    passwordCreateController2?.dispose();
   }
 
-  /// Additional helper methods are added here.
+  /// Action blocks are added here.
 
+  /// Additional helper methods are added here.
 }

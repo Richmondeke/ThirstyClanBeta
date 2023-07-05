@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -71,6 +73,14 @@ class ThirstySodeRecord extends FirestoreRecord {
   @override
   String toString() =>
       'ThirstySodeRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is ThirstySodeRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createThirstySodeRecordData({
@@ -91,4 +101,29 @@ Map<String, dynamic> createThirstySodeRecordData({
   );
 
   return firestoreData;
+}
+
+class ThirstySodeRecordDocumentEquality implements Equality<ThirstySodeRecord> {
+  const ThirstySodeRecordDocumentEquality();
+
+  @override
+  bool equals(ThirstySodeRecord? e1, ThirstySodeRecord? e2) {
+    return e1?.episodeName == e2?.episodeName &&
+        e1?.description == e2?.description &&
+        e1?.episodeNumber == e2?.episodeNumber &&
+        e1?.thumbnail == e2?.thumbnail &&
+        e1?.youtube == e2?.youtube;
+  }
+
+  @override
+  int hash(ThirstySodeRecord? e) => const ListEquality().hash([
+        e?.episodeName,
+        e?.description,
+        e?.episodeNumber,
+        e?.thumbnail,
+        e?.youtube
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is ThirstySodeRecord;
 }

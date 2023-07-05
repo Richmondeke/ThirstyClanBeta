@@ -82,6 +82,8 @@ class _ChangePhotoCopyCopyWidgetState extends State<ChangePhotoCopyCopyWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

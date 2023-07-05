@@ -33,6 +33,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
         TextEditingController(text: currentUserEmail);
     _model.textController2 ??=
         TextEditingController(text: currentUserDisplayName);
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -51,13 +52,16 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 50.0,
-              height: 50.0,
-              child: SpinKitRipple(
-                color: FlutterFlowTheme.of(context).primary,
-                size: 50.0,
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: SizedBox(
+                width: 50.0,
+                height: 50.0,
+                child: SpinKitRipple(
+                  color: FlutterFlowTheme.of(context).primary,
+                  size: 50.0,
+                ),
               ),
             ),
           );
@@ -84,7 +88,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
               ),
             ),
             title: Text(
-              'Edit Profile',
+              'COMPLETE PROFILE',
               style: FlutterFlowTheme.of(context).titleMedium.override(
                     fontFamily: 'DM Sans',
                     useGoogleFonts: GoogleFonts.asMap().containsKey(
@@ -148,10 +152,9 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                               backgroundColor: Colors.transparent,
                               barrierColor: Color(0xCB000000),
                               context: context,
-                              builder: (bottomSheetContext) {
+                              builder: (context) {
                                 return Padding(
-                                  padding: MediaQuery.of(bottomSheetContext)
-                                      .viewInsets,
+                                  padding: MediaQuery.viewInsetsOf(context),
                                   child: Container(
                                     height: 450.0,
                                     child: ChangePhotoWidget(),
@@ -160,9 +163,9 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                               },
                             ).then((value) => setState(() {}));
                           },
-                          text: 'Change Photo',
+                          text: 'CHANGE PHOTO',
                           options: FFButtonOptions(
-                            width: 130.0,
+                            width: 177.0,
                             height: 40.0,
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
@@ -202,7 +205,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                             controller: _model.emailAddressController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'Email Address',
+                              labelText: 'EMAIL ADDRESS',
                               labelStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -219,7 +222,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Lexend Deca',
+                                    fontFamily: 'Kyrilla',
                                     color: Color(0xFF95A1AC),
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.normal,
@@ -264,7 +267,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .titleMedium
                                 .override(
-                                  fontFamily: 'DM Sans',
+                                  fontFamily: 'Kyrilla',
                                   useGoogleFonts: GoogleFonts.asMap()
                                       .containsKey(FlutterFlowTheme.of(context)
                                           .titleMediumFamily),
@@ -281,12 +284,11 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                               controller: _model.textController2,
                               obscureText: false,
                               decoration: InputDecoration(
-                                labelText: 'Display Name',
+                                labelText: 'DISPLAY NAME',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .bodyMediumFamily,
+                                      fontFamily: 'Kyrilla',
                                       color:
                                           FlutterFlowTheme.of(context).grayIcon,
                                       useGoogleFonts: GoogleFonts.asMap()
@@ -298,7 +300,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Lexend Deca',
+                                      fontFamily: 'Kyrilla',
                                       color: Color(0xFF95A1AC),
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.normal,
@@ -343,7 +345,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
                                   .override(
-                                    fontFamily: 'DM Sans',
+                                    fontFamily: 'Kyrilla',
                                     useGoogleFonts: GoogleFonts.asMap()
                                         .containsKey(
                                             FlutterFlowTheme.of(context)
@@ -364,16 +366,16 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          final guestsUpdateData = createGuestsRecordData(
+                          await currentUserReference!
+                              .update(createGuestsRecordData(
                             displayName: _model.textController2.text,
                             email: _model.emailAddressController.text,
                             photoUrl: createProfileGuestsRecord.photoUrl,
-                          );
-                          await currentUserReference!.update(guestsUpdateData);
+                          ));
 
                           context.pushNamed('profile');
                         },
-                        text: 'Save Changes',
+                        text: 'SAVE CHANGES',
                         options: FFButtonOptions(
                           width: 340.0,
                           height: 60.0,

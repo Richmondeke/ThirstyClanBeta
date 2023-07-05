@@ -21,7 +21,6 @@ class _SignupWidgetState extends State<SignupWidget> {
   late SignupModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
@@ -31,14 +30,15 @@ class _SignupWidgetState extends State<SignupWidget> {
     _model.emailAddressController ??= TextEditingController();
     _model.passwordController ??= TextEditingController();
     _model.emailAddressCreateController ??= TextEditingController();
-    _model.passwordCreateController ??= TextEditingController();
+    _model.passwordCreateController1 ??= TextEditingController();
+    _model.passwordCreateController2 ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -47,7 +47,7 @@ class _SignupWidgetState extends State<SignupWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
@@ -95,10 +95,10 @@ class _SignupWidgetState extends State<SignupWidget> {
                           indicatorColor: FlutterFlowTheme.of(context).primary,
                           tabs: [
                             Tab(
-                              text: 'Sign In',
+                              text: 'SIGN IN',
                             ),
                             Tab(
-                              text: 'Sign Up',
+                              text: 'SIGN UP',
                             ),
                           ],
                         ),
@@ -119,11 +119,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                       controller: _model.emailAddressController,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Email Address',
+                                        labelText: 'EMAIL ADDRESS',
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
-                                              fontFamily: 'DM Sans',
+                                              fontFamily: 'Kyrilla',
                                               useGoogleFonts:
                                                   GoogleFonts.asMap()
                                                       .containsKey(
@@ -131,7 +131,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                                   context)
                                                               .bodySmallFamily),
                                             ),
-                                        hintText: 'Enter your email...',
+                                        hintText: 'ENTER EMAIL...',
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -185,7 +185,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'DM Sans',
+                                            fontFamily: 'Kyrilla',
                                             color: Color(0xFF0F1113),
                                             useGoogleFonts: GoogleFonts.asMap()
                                                 .containsKey(
@@ -204,11 +204,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                       controller: _model.passwordController,
                                       obscureText: !_model.passwordVisibility,
                                       decoration: InputDecoration(
-                                        labelText: 'Password',
+                                        labelText: 'PASSWORD',
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
-                                              fontFamily: 'DM Sans',
+                                              fontFamily: 'Kyrilla',
                                               useGoogleFonts:
                                                   GoogleFonts.asMap()
                                                       .containsKey(
@@ -216,7 +216,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                                   context)
                                                               .bodySmallFamily),
                                             ),
-                                        hintText: 'Enter your password...',
+                                        hintText: 'ENTER PASSWORD...',
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -320,9 +320,10 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         }
 
                                         context.pushNamedAuth(
-                                            'Homenew', context.mounted);
+                                            'LoginControlPage',
+                                            context.mounted);
                                       },
-                                      text: 'Sign In',
+                                      text: 'SIGN IN',
                                       options: FFButtonOptions(
                                         width: 230.0,
                                         height: 50.0,
@@ -335,7 +336,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
-                                              fontFamily: 'DM Sans',
+                                              fontFamily: 'Kyrilla',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,
@@ -361,9 +362,9 @@ class _SignupWidgetState extends State<SignupWidget> {
                                       onPressed: () async {
                                         context.pushNamed('forgotpassword');
                                       },
-                                      text: 'Forgot Password?',
+                                      text: 'FORGOT PASSWORD',
                                       options: FFButtonOptions(
-                                        width: 170.0,
+                                        width: 200.0,
                                         height: 40.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 0.0),
@@ -377,6 +378,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                             .override(
                                               fontFamily: 'DM Sans',
                                               color: Colors.white,
+                                              fontSize: 12.0,
                                               useGoogleFonts: GoogleFonts
                                                       .asMap()
                                                   .containsKey(
@@ -405,15 +407,15 @@ class _SignupWidgetState extends State<SignupWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 12.0, 0.0, 0.0),
                                           child: Text(
-                                            'Or use a social account to login',
+                                            'OR USE A SOCIAL MEDIA ACCOUNT TO LOGIN',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'DM Sans',
+                                                  fontFamily: 'Kyrilla',
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primaryText,
-                                                  fontSize: 14.0,
+                                                  fontSize: 12.0,
                                                   fontWeight: FontWeight.normal,
                                                   useGoogleFonts: GoogleFonts
                                                           .asMap()
@@ -497,7 +499,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         context.pushNamedAuth(
                                             'Homenew', context.mounted);
                                       },
-                                      text: 'Continue as guest',
+                                      text: 'CONTINUE AS A GUEST',
                                       options: FFButtonOptions(
                                         width: 220.0,
                                         height: 40.0,
@@ -545,14 +547,14 @@ class _SignupWidgetState extends State<SignupWidget> {
                                           _model.emailAddressCreateController,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Email Address',
+                                        labelText: 'EMAIL ADDRESS',
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .bodySmall,
-                                        hintText: 'Enter your email...',
+                                        hintText: 'ENTER YOUR EMAIL...',
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
-                                              fontFamily: 'DM Sans',
+                                              fontFamily: 'Kyrilla',
                                               useGoogleFonts:
                                                   GoogleFonts.asMap()
                                                       .containsKey(
@@ -619,15 +621,15 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         20.0, 12.0, 20.0, 0.0),
                                     child: TextFormField(
                                       controller:
-                                          _model.passwordCreateController,
+                                          _model.passwordCreateController1,
                                       obscureText:
-                                          !_model.passwordCreateVisibility,
+                                          !_model.passwordCreateVisibility1,
                                       decoration: InputDecoration(
-                                        labelText: 'Password',
+                                        labelText: 'PASSWORD',
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
-                                              fontFamily: 'DM Sans',
+                                              fontFamily: 'Kyrilla',
                                               useGoogleFonts:
                                                   GoogleFonts.asMap()
                                                       .containsKey(
@@ -635,11 +637,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                                   context)
                                                               .bodySmallFamily),
                                             ),
-                                        hintText: 'Enter your password...',
+                                        hintText: 'ENTER PASSWORD...',
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
-                                              fontFamily: 'DM Sans',
+                                              fontFamily: 'Kyrilla',
                                               useGoogleFonts:
                                                   GoogleFonts.asMap()
                                                       .containsKey(
@@ -688,14 +690,14 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         suffixIcon: InkWell(
                                           onTap: () => setState(
                                             () => _model
-                                                    .passwordCreateVisibility =
+                                                    .passwordCreateVisibility1 =
                                                 !_model
-                                                    .passwordCreateVisibility,
+                                                    .passwordCreateVisibility1,
                                           ),
                                           focusNode:
                                               FocusNode(skipTraversal: true),
                                           child: Icon(
-                                            _model.passwordCreateVisibility
+                                            _model.passwordCreateVisibility1
                                                 ? Icons.visibility_outlined
                                                 : Icons.visibility_off_outlined,
                                             color: FlutterFlowTheme.of(context)
@@ -715,7 +717,112 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                         .bodyMediumFamily),
                                           ),
                                       validator: _model
-                                          .passwordCreateControllerValidator
+                                          .passwordCreateController1Validator
+                                          .asValidator(context),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        20.0, 12.0, 20.0, 0.0),
+                                    child: TextFormField(
+                                      controller:
+                                          _model.passwordCreateController2,
+                                      obscureText:
+                                          !_model.passwordCreateVisibility2,
+                                      decoration: InputDecoration(
+                                        labelText: 'RE-ENTER PASSWORD',
+                                        labelStyle: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .override(
+                                              fontFamily: 'Kyrilla',
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodySmallFamily),
+                                            ),
+                                        hintText: 'RE-ENTER PASSWORD...',
+                                        hintStyle: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .override(
+                                              fontFamily: 'Kyrilla',
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodySmallFamily),
+                                            ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                20.0, 24.0, 20.0, 24.0),
+                                        suffixIcon: InkWell(
+                                          onTap: () => setState(
+                                            () => _model
+                                                    .passwordCreateVisibility2 =
+                                                !_model
+                                                    .passwordCreateVisibility2,
+                                          ),
+                                          focusNode:
+                                              FocusNode(skipTraversal: true),
+                                          child: Icon(
+                                            _model.passwordCreateVisibility2
+                                                ? Icons.visibility_outlined
+                                                : Icons.visibility_off_outlined,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 20.0,
+                                          ),
+                                        ),
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'DM Sans',
+                                            color: Color(0xFF0F1113),
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily),
+                                          ),
+                                      validator: _model
+                                          .passwordCreateController2Validator
                                           .asValidator(context),
                                     ),
                                   ),
@@ -731,7 +838,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                           context,
                                           _model.emailAddressCreateController
                                               .text,
-                                          _model.passwordCreateController.text,
+                                          _model.passwordCreateController1.text,
                                         );
                                         if (user == null) {
                                           return;
@@ -740,7 +847,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         context.pushNamedAuth(
                                             'CreateProfile', context.mounted);
                                       },
-                                      text: 'Create Account',
+                                      text: 'CREATE ACCOUNT',
                                       options: FFButtonOptions(
                                         width: 230.0,
                                         height: 50.0,
@@ -753,7 +860,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
-                                              fontFamily: 'DM Sans',
+                                              fontFamily: 'Kyrilla',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,
@@ -785,11 +892,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 24.0, 0.0, 0.0),
                                           child: Text(
-                                            'Sign up using a social account',
+                                            'SIGN UP USING A SOCIAL ACCOUNT',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'DM Sans',
+                                                  fontFamily: 'Kyrilla',
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .backgroundComponents,
@@ -878,7 +985,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         context.pushNamedAuth(
                                             'Homenew', context.mounted);
                                       },
-                                      text: 'Continue as guest',
+                                      text: 'CONTINUE AS GUEST',
                                       options: FFButtonOptions(
                                         width: 220.0,
                                         height: 40.0,
@@ -892,7 +999,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
-                                              fontFamily: 'DM Sans',
+                                              fontFamily: 'Kyrilla',
                                               color: Colors.white,
                                               useGoogleFonts: GoogleFonts
                                                       .asMap()

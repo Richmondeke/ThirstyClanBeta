@@ -130,7 +130,7 @@ abstract class FlutterFlowTheme {
 }
 
 DeviceSize getDeviceSize(BuildContext context) {
-  final width = MediaQuery.of(context).size.width;
+  final width = MediaQuery.sizeOf(context).width;
   if (width < 479) {
     return DeviceSize.mobile;
   } else if (width < 991) {
@@ -225,107 +225,107 @@ class MobileTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'Sora';
-  TextStyle get displayLarge => GoogleFonts.getFont(
-        'Sora',
+  String get displayLargeFamily => 'Kyrilla';
+  TextStyle get displayLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 57.0,
       );
-  String get displayMediumFamily => 'Sora';
-  TextStyle get displayMedium => GoogleFonts.getFont(
-        'Sora',
+  String get displayMediumFamily => 'Kyrilla';
+  TextStyle get displayMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 45.0,
       );
-  String get displaySmallFamily => 'DM Sans';
-  TextStyle get displaySmall => GoogleFonts.getFont(
-        'DM Sans',
+  String get displaySmallFamily => 'Kyrilla';
+  TextStyle get displaySmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 32.0,
       );
-  String get headlineLargeFamily => 'Sora';
-  TextStyle get headlineLarge => GoogleFonts.getFont(
-        'Sora',
+  String get headlineLargeFamily => 'Kyrilla';
+  TextStyle get headlineLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'DM Sans';
-  TextStyle get headlineMedium => GoogleFonts.getFont(
-        'DM Sans',
+  String get headlineMediumFamily => 'Kyrilla';
+  TextStyle get headlineMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
-  String get headlineSmallFamily => 'DM Sans';
-  TextStyle get headlineSmall => GoogleFonts.getFont(
-        'DM Sans',
+  String get headlineSmallFamily => 'Kyrilla';
+  TextStyle get headlineSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
-  String get titleLargeFamily => 'Sora';
-  TextStyle get titleLarge => GoogleFonts.getFont(
-        'Sora',
+  String get titleLargeFamily => 'Kyrilla';
+  TextStyle get titleLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
-  String get titleMediumFamily => 'DM Sans';
-  TextStyle get titleMedium => GoogleFonts.getFont(
-        'DM Sans',
+  String get titleMediumFamily => 'Kyrilla';
+  TextStyle get titleMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 18.0,
       );
-  String get titleSmallFamily => 'DM Sans';
-  TextStyle get titleSmall => GoogleFonts.getFont(
-        'DM Sans',
+  String get titleSmallFamily => 'Kyrilla';
+  TextStyle get titleSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primary,
         fontWeight: FontWeight.w500,
         fontSize: 18.0,
       );
-  String get labelLargeFamily => 'Sora';
-  TextStyle get labelLarge => GoogleFonts.getFont(
-        'Sora',
+  String get labelLargeFamily => 'Kyrilla';
+  TextStyle get labelLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 14.0,
       );
-  String get labelMediumFamily => 'Sora';
-  TextStyle get labelMedium => GoogleFonts.getFont(
-        'Sora',
+  String get labelMediumFamily => 'Kyrilla';
+  TextStyle get labelMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 12.0,
       );
-  String get labelSmallFamily => 'Sora';
-  TextStyle get labelSmall => GoogleFonts.getFont(
-        'Sora',
+  String get labelSmallFamily => 'Kyrilla';
+  TextStyle get labelSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 11.0,
       );
-  String get bodyLargeFamily => 'Sora';
-  TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Sora',
+  String get bodyLargeFamily => 'Kyrilla';
+  TextStyle get bodyLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodyMediumFamily => 'DM Sans';
-  TextStyle get bodyMedium => GoogleFonts.getFont(
-        'DM Sans',
+  String get bodyMediumFamily => 'Kyrilla';
+  TextStyle get bodyMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkLines,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodySmallFamily => 'DM Sans';
-  TextStyle get bodySmall => GoogleFonts.getFont(
-        'DM Sans',
+  String get bodySmallFamily => 'Kyrilla';
+  TextStyle get bodySmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.grayIcon,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
@@ -337,107 +337,107 @@ class TabletTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'Sora';
-  TextStyle get displayLarge => GoogleFonts.getFont(
-        'Sora',
+  String get displayLargeFamily => 'Kyrilla';
+  TextStyle get displayLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 57.0,
       );
-  String get displayMediumFamily => 'Sora';
-  TextStyle get displayMedium => GoogleFonts.getFont(
-        'Sora',
+  String get displayMediumFamily => 'Kyrilla';
+  TextStyle get displayMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 45.0,
       );
-  String get displaySmallFamily => 'Winlove';
+  String get displaySmallFamily => 'Kyrilla';
   TextStyle get displaySmall => TextStyle(
-        fontFamily: 'Winlove',
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 32.0,
       );
-  String get headlineLargeFamily => 'Sora';
-  TextStyle get headlineLarge => GoogleFonts.getFont(
-        'Sora',
+  String get headlineLargeFamily => 'Kyrilla';
+  TextStyle get headlineLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'Winlove';
+  String get headlineMediumFamily => 'Kyrilla';
   TextStyle get headlineMedium => TextStyle(
-        fontFamily: 'Winlove',
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
-  String get headlineSmallFamily => 'Dancing Script';
-  TextStyle get headlineSmall => GoogleFonts.getFont(
-        'Dancing Script',
+  String get headlineSmallFamily => 'Kyrilla';
+  TextStyle get headlineSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
-  String get titleLargeFamily => 'Sora';
-  TextStyle get titleLarge => GoogleFonts.getFont(
-        'Sora',
+  String get titleLargeFamily => 'Kyrilla';
+  TextStyle get titleLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
-  String get titleMediumFamily => 'Cormorant Garamond';
-  TextStyle get titleMedium => GoogleFonts.getFont(
-        'Cormorant Garamond',
+  String get titleMediumFamily => 'Kyrilla';
+  TextStyle get titleMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 18.0,
       );
-  String get titleSmallFamily => 'Cormorant Garamond';
-  TextStyle get titleSmall => GoogleFonts.getFont(
-        'Cormorant Garamond',
+  String get titleSmallFamily => 'Kyrilla';
+  TextStyle get titleSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primary,
         fontWeight: FontWeight.w500,
         fontSize: 18.0,
       );
-  String get labelLargeFamily => 'Sora';
-  TextStyle get labelLarge => GoogleFonts.getFont(
-        'Sora',
+  String get labelLargeFamily => 'Kyrilla';
+  TextStyle get labelLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 14.0,
       );
-  String get labelMediumFamily => 'Sora';
-  TextStyle get labelMedium => GoogleFonts.getFont(
-        'Sora',
+  String get labelMediumFamily => 'Kyrilla';
+  TextStyle get labelMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 12.0,
       );
-  String get labelSmallFamily => 'Sora';
-  TextStyle get labelSmall => GoogleFonts.getFont(
-        'Sora',
+  String get labelSmallFamily => 'Kyrilla';
+  TextStyle get labelSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 11.0,
       );
-  String get bodyLargeFamily => 'Sora';
-  TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Sora',
+  String get bodyLargeFamily => 'Kyrilla';
+  TextStyle get bodyLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodyMediumFamily => 'Cormorant Garamond';
-  TextStyle get bodyMedium => GoogleFonts.getFont(
-        'Cormorant Garamond',
+  String get bodyMediumFamily => 'Kyrilla';
+  TextStyle get bodyMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkLines,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodySmallFamily => 'Dancing Script';
-  TextStyle get bodySmall => GoogleFonts.getFont(
-        'Dancing Script',
+  String get bodySmallFamily => 'Kyrilla';
+  TextStyle get bodySmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.grayIcon,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
@@ -449,107 +449,107 @@ class DesktopTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'Sora';
-  TextStyle get displayLarge => GoogleFonts.getFont(
-        'Sora',
+  String get displayLargeFamily => 'Kyrilla';
+  TextStyle get displayLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 57.0,
       );
-  String get displayMediumFamily => 'Sora';
-  TextStyle get displayMedium => GoogleFonts.getFont(
-        'Sora',
+  String get displayMediumFamily => 'Kyrilla';
+  TextStyle get displayMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 45.0,
       );
-  String get displaySmallFamily => 'Winlove';
+  String get displaySmallFamily => 'Kyrilla';
   TextStyle get displaySmall => TextStyle(
-        fontFamily: 'Winlove',
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 32.0,
       );
-  String get headlineLargeFamily => 'Sora';
-  TextStyle get headlineLarge => GoogleFonts.getFont(
-        'Sora',
+  String get headlineLargeFamily => 'Kyrilla';
+  TextStyle get headlineLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'Winlove';
+  String get headlineMediumFamily => 'Kyrilla';
   TextStyle get headlineMedium => TextStyle(
-        fontFamily: 'Winlove',
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
-  String get headlineSmallFamily => 'Dancing Script';
-  TextStyle get headlineSmall => GoogleFonts.getFont(
-        'Dancing Script',
+  String get headlineSmallFamily => 'Kyrilla';
+  TextStyle get headlineSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
-  String get titleLargeFamily => 'Sora';
-  TextStyle get titleLarge => GoogleFonts.getFont(
-        'Sora',
+  String get titleLargeFamily => 'Kyrilla';
+  TextStyle get titleLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
-  String get titleMediumFamily => 'Cormorant Garamond';
-  TextStyle get titleMedium => GoogleFonts.getFont(
-        'Cormorant Garamond',
+  String get titleMediumFamily => 'Kyrilla';
+  TextStyle get titleMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkText,
         fontWeight: FontWeight.w500,
         fontSize: 18.0,
       );
-  String get titleSmallFamily => 'Cormorant Garamond';
-  TextStyle get titleSmall => GoogleFonts.getFont(
-        'Cormorant Garamond',
+  String get titleSmallFamily => 'Kyrilla';
+  TextStyle get titleSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primary,
         fontWeight: FontWeight.w500,
         fontSize: 18.0,
       );
-  String get labelLargeFamily => 'Sora';
-  TextStyle get labelLarge => GoogleFonts.getFont(
-        'Sora',
+  String get labelLargeFamily => 'Kyrilla';
+  TextStyle get labelLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 14.0,
       );
-  String get labelMediumFamily => 'Sora';
-  TextStyle get labelMedium => GoogleFonts.getFont(
-        'Sora',
+  String get labelMediumFamily => 'Kyrilla';
+  TextStyle get labelMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 12.0,
       );
-  String get labelSmallFamily => 'Sora';
-  TextStyle get labelSmall => GoogleFonts.getFont(
-        'Sora',
+  String get labelSmallFamily => 'Kyrilla';
+  TextStyle get labelSmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 11.0,
       );
-  String get bodyLargeFamily => 'Sora';
-  TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Sora',
+  String get bodyLargeFamily => 'Kyrilla';
+  TextStyle get bodyLarge => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodyMediumFamily => 'Cormorant Garamond';
-  TextStyle get bodyMedium => GoogleFonts.getFont(
-        'Cormorant Garamond',
+  String get bodyMediumFamily => 'Kyrilla';
+  TextStyle get bodyMedium => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.darkLines,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodySmallFamily => 'Dancing Script';
-  TextStyle get bodySmall => GoogleFonts.getFont(
-        'Dancing Script',
+  String get bodySmallFamily => 'Kyrilla';
+  TextStyle get bodySmall => TextStyle(
+        fontFamily: 'Kyrilla',
         color: theme.grayIcon,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,

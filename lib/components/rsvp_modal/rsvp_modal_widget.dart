@@ -73,6 +73,8 @@ class _RsvpModalWidgetState extends State<RsvpModalWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

@@ -10,8 +10,8 @@ Future initFirebase() async {
             projectId: "thirsty-32962",
             storageBucket: "thirsty-32962.appspot.com",
             messagingSenderId: "156537805594",
-            appId: "1:156537805594:web:29c8b70516af1e47adeaa3",
-            measurementId: "G-ZGZJSH8XWL"));
+            appId: "1:156537805594:web:467159bc21f8fa9aadeaa3",
+            measurementId: "G-H5B3L1SZHZ"));
   } else {
     await Firebase.initializeApp();
   }

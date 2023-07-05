@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -73,8 +75,8 @@ class SocialPostsRecord extends FirestoreRecord {
     _postDisplayName = snapshotData['postDisplayName'] as String?;
     _postUserImage = snapshotData['postUserImage'] as String?;
     _likes = getDataList(snapshotData['likes']);
-    _numLikes = snapshotData['num_likes'] as int?;
-    _numComments = snapshotData['num_comments'] as int?;
+    _numLikes = castToType<int>(snapshotData['num_likes']);
+    _numComments = castToType<int>(snapshotData['num_comments']);
   }
 
   static CollectionReference get collection =>
@@ -101,6 +103,14 @@ class SocialPostsRecord extends FirestoreRecord {
   @override
   String toString() =>
       'SocialPostsRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is SocialPostsRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createSocialPostsRecordData({
@@ -129,4 +139,40 @@ Map<String, dynamic> createSocialPostsRecordData({
   );
 
   return firestoreData;
+}
+
+class SocialPostsRecordDocumentEquality implements Equality<SocialPostsRecord> {
+  const SocialPostsRecordDocumentEquality();
+
+  @override
+  bool equals(SocialPostsRecord? e1, SocialPostsRecord? e2) {
+    const listEquality = ListEquality();
+    return e1?.postCreated == e2?.postCreated &&
+        e1?.postImage == e2?.postImage &&
+        e1?.postVideo == e2?.postVideo &&
+        e1?.postDescription == e2?.postDescription &&
+        e1?.postUser == e2?.postUser &&
+        e1?.postDisplayName == e2?.postDisplayName &&
+        e1?.postUserImage == e2?.postUserImage &&
+        listEquality.equals(e1?.likes, e2?.likes) &&
+        e1?.numLikes == e2?.numLikes &&
+        e1?.numComments == e2?.numComments;
+  }
+
+  @override
+  int hash(SocialPostsRecord? e) => const ListEquality().hash([
+        e?.postCreated,
+        e?.postImage,
+        e?.postVideo,
+        e?.postDescription,
+        e?.postUser,
+        e?.postDisplayName,
+        e?.postUserImage,
+        e?.likes,
+        e?.numLikes,
+        e?.numComments
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is SocialPostsRecord;
 }

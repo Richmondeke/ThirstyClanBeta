@@ -20,19 +20,19 @@ class _FirstTimeSignupWidgetState extends State<FirstTimeSignupWidget> {
   late FirstTimeSignupModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => FirstTimeSignupModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -41,7 +41,7 @@ class _FirstTimeSignupWidgetState extends State<FirstTimeSignupWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBtnText,
@@ -98,7 +98,7 @@ class _FirstTimeSignupWidgetState extends State<FirstTimeSignupWidget> {
                           indicatorColor: Color(0xFFFC0004),
                           tabs: [
                             Tab(
-                              text: 'Complete Verification',
+                              text: 'COMPLETE VERIFICATION',
                             ),
                           ],
                         ),
@@ -125,12 +125,12 @@ class _FirstTimeSignupWidgetState extends State<FirstTimeSignupWidget> {
                                       ),
                                     ),
                                     Text(
-                                      'Hey Buddy, check your email for a password reset link. Also check your spam box.',
+                                      'HEY BUDDY, CHECK YOUR EMAIL FOR. A PASSWORD RESET LINK. ALSO CHECK YOUR SPAM BOX.',
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'DM Sans',
+                                            fontFamily: 'Kyrilla',
                                             useGoogleFonts: GoogleFonts.asMap()
                                                 .containsKey(
                                                     FlutterFlowTheme.of(context)
@@ -144,7 +144,7 @@ class _FirstTimeSignupWidgetState extends State<FirstTimeSignupWidget> {
                                         onPressed: () async {
                                           context.pushNamed('Signup');
                                         },
-                                        text: 'Okay',
+                                        text: 'OKAY',
                                         options: FFButtonOptions(
                                           width: 230.0,
                                           height: 50.0,
@@ -159,7 +159,7 @@ class _FirstTimeSignupWidgetState extends State<FirstTimeSignupWidget> {
                                                   context)
                                               .titleSmall
                                               .override(
-                                                fontFamily: 'DM Sans',
+                                                fontFamily: 'Kyrilla',
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primary,

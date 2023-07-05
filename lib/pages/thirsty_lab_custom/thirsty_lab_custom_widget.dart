@@ -25,6 +25,8 @@ class _ThirstyLabCustomWidgetState extends State<ThirstyLabCustomWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ThirstyLabCustomModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -76,7 +78,7 @@ class _ThirstyLabCustomWidgetState extends State<ThirstyLabCustomWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(10.0, 20.0, 10.0, 0.0),
               child: FlutterFlowWebView(
-                url: 'https://wearthirsty.com/shop/',
+                content: 'https://wearthirsty.com/shop/',
                 bypass: false,
                 height: 650.0,
                 verticalScroll: false,

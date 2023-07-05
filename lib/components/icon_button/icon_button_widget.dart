@@ -34,6 +34,8 @@ class _IconButtonWidgetState extends State<IconButtonWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => IconButtonModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -48,7 +50,7 @@ class _IconButtonWidgetState extends State<IconButtonWidget> {
     context.watch<FFAppState>();
 
     return Container(
-      width: MediaQuery.of(context).size.width * 0.44,
+      width: MediaQuery.sizeOf(context).width * 0.44,
       height: 110.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).lightText,

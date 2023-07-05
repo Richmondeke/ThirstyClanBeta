@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -101,6 +103,14 @@ class ArtisteRecord extends FirestoreRecord {
   @override
   String toString() =>
       'ArtisteRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is ArtisteRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createArtisteRecordData({
@@ -131,4 +141,39 @@ Map<String, dynamic> createArtisteRecordData({
   );
 
   return firestoreData;
+}
+
+class ArtisteRecordDocumentEquality implements Equality<ArtisteRecord> {
+  const ArtisteRecordDocumentEquality();
+
+  @override
+  bool equals(ArtisteRecord? e1, ArtisteRecord? e2) {
+    return e1?.artistename == e2?.artistename &&
+        e1?.artistedescription == e2?.artistedescription &&
+        e1?.instagram == e2?.instagram &&
+        e1?.tikTok == e2?.tikTok &&
+        e1?.twitter == e2?.twitter &&
+        e1?.youtube == e2?.youtube &&
+        e1?.appleMusic == e2?.appleMusic &&
+        e1?.spotify == e2?.spotify &&
+        e1?.nickname == e2?.nickname &&
+        e1?.artisteimage == e2?.artisteimage;
+  }
+
+  @override
+  int hash(ArtisteRecord? e) => const ListEquality().hash([
+        e?.artistename,
+        e?.artistedescription,
+        e?.instagram,
+        e?.tikTok,
+        e?.twitter,
+        e?.youtube,
+        e?.appleMusic,
+        e?.spotify,
+        e?.nickname,
+        e?.artisteimage
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is ArtisteRecord;
 }

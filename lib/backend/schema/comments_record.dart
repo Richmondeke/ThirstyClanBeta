@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -71,6 +73,14 @@ class CommentsRecord extends FirestoreRecord {
   @override
   String toString() =>
       'CommentsRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is CommentsRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createCommentsRecordData({
@@ -89,4 +99,25 @@ Map<String, dynamic> createCommentsRecordData({
   );
 
   return firestoreData;
+}
+
+class CommentsRecordDocumentEquality implements Equality<CommentsRecord> {
+  const CommentsRecordDocumentEquality();
+
+  @override
+  bool equals(CommentsRecord? e1, CommentsRecord? e2) {
+    const listEquality = ListEquality();
+    return e1?.guest == e2?.guest &&
+        e1?.post == e2?.post &&
+        e1?.comment == e2?.comment &&
+        listEquality.equals(e1?.likes, e2?.likes) &&
+        e1?.createdAt == e2?.createdAt;
+  }
+
+  @override
+  int hash(CommentsRecord? e) => const ListEquality()
+      .hash([e?.guest, e?.post, e?.comment, e?.likes, e?.createdAt]);
+
+  @override
+  bool isValidKey(Object? o) => o is CommentsRecord;
 }

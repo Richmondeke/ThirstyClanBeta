@@ -112,6 +112,8 @@ class _SelectOptionsCopyWidgetState extends State<SelectOptionsCopyWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

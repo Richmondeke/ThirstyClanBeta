@@ -36,6 +36,7 @@ class _SearchprouctsWidgetState extends State<SearchprouctsWidget> {
     _model = createModel(context, () => SearchprouctsModel());
 
     _model.textController ??= TextEditingController(text: widget.searchTerm);
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -59,7 +60,7 @@ class _SearchprouctsWidgetState extends State<SearchprouctsWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 1.0,
+                width: MediaQuery.sizeOf(context).width * 1.0,
                 height: 160.0,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -131,7 +132,7 @@ class _SearchprouctsWidgetState extends State<SearchprouctsWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.pushNamed('checkoutpage');
+                                context.pushNamed('Cart');
                               },
                               child: badges.Badge(
                                 badgeContent: Text(
@@ -216,7 +217,7 @@ class _SearchprouctsWidgetState extends State<SearchprouctsWidget> {
                                 controller: _model.textController,
                                 obscureText: false,
                                 decoration: InputDecoration(
-                                  labelText: 'What do you need...',
+                                  labelText: 'WHAT DO YOU NEED...',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color:
@@ -295,7 +296,7 @@ class _SearchprouctsWidgetState extends State<SearchprouctsWidget> {
                                         _model.simpleSearchResults = [])
                                     .whenComplete(() => setState(() {}));
                               },
-                              text: 'Search',
+                              text: 'SEARCH',
                               options: FFButtonOptions(
                                 width: 100.0,
                                 height: 40.0,
@@ -370,16 +371,13 @@ class _SearchprouctsWidgetState extends State<SearchprouctsWidget> {
                             highlightColor: Colors.transparent,
                             onTap: () async {
                               context.pushNamed(
-                                'Productdetails',
-                                queryParams: {
-                                  'products1': serializeParam(
-                                    listViewProductsRecord,
-                                    ParamType.Document,
+                                'Mainproductdetails',
+                                queryParameters: {
+                                  'productId': serializeParam(
+                                    listViewProductsRecord.reference,
+                                    ParamType.DocumentReference,
                                   ),
                                 }.withoutNulls,
-                                extra: <String, dynamic>{
-                                  'products1': listViewProductsRecord,
-                                },
                               );
                             },
                             child: Container(

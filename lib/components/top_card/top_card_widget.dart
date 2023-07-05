@@ -33,6 +33,8 @@ class _TopCardWidgetState extends State<TopCardWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TopCardModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

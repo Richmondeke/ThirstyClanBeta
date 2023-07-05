@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'profile_model.dart';
@@ -27,6 +28,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ProfileModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -48,10 +51,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 1.0,
+              width: MediaQuery.sizeOf(context).width * 1.0,
               height: 160.0,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primary,
+                color: FlutterFlowTheme.of(context).primaryText,
               ),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20.0, 40.0, 20.0, 0.0),
@@ -98,7 +101,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .headlineSmall
                                     .override(
-                                      fontFamily: 'DM Sans',
+                                      fontFamily: 'Kyrilla',
                                       color: FlutterFlowTheme.of(context)
                                           .primaryBackground,
                                       useGoogleFonts: GoogleFonts.asMap()
@@ -116,7 +119,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Lexend Deca',
+                                      fontFamily: 'Kyrilla',
                                       color: Color(0xB4FFFFFF),
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.normal,
@@ -147,7 +150,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
-                      context.pushNamed('editprofile');
+                      context.pushNamed('TICKET');
                     },
                     child: Material(
                       color: Colors.transparent,
@@ -156,7 +159,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
+                        width: MediaQuery.sizeOf(context).width * 0.9,
                         height: 60.0,
                         decoration: BoxDecoration(
                           color:
@@ -175,17 +178,25 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'My Thirsty Pass',
-                                style: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'DM Sans',
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmallFamily),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 8.0, 0.0),
+                                    child: FaIcon(
+                                      FontAwesomeIcons.barcode,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 24.0,
                                     ),
+                                  ),
+                                  Text(
+                                    'MY THIRSTY PASS',
+                                    style: FlutterFlowTheme.of(context)
+                                        .titleMedium,
+                                  ),
+                                ],
                               ),
                               FlutterFlowIconButton(
                                 borderColor: Colors.transparent,
@@ -231,7 +242,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
+                        width: MediaQuery.sizeOf(context).width * 0.9,
                         height: 60.0,
                         decoration: BoxDecoration(
                           color:
@@ -251,16 +262,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Edit Profile',
-                                style: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'DM Sans',
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmallFamily),
-                                    ),
+                                'EDIT PROFILE',
+                                style: FlutterFlowTheme.of(context).titleMedium,
                               ),
                               FlutterFlowIconButton(
                                 borderColor: Colors.transparent,
@@ -306,7 +309,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
+                        width: MediaQuery.sizeOf(context).width * 0.9,
                         height: 60.0,
                         decoration: BoxDecoration(
                           color:
@@ -326,91 +329,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Change Password',
-                                style: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'DM Sans',
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmallFamily),
-                                    ),
-                              ),
-                              FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30.0,
-                                buttonSize: 46.0,
-                                icon: Icon(
-                                  Icons.chevron_right_rounded,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  size: 20.0,
-                                ),
-                                onPressed: () {
-                                  print('IconButton pressed ...');
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      context.pushNamed('Notification');
-                    },
-                    child: Material(
-                      color: Colors.transparent,
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 60.0,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            width: 0.0,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 4.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Notification Settings',
-                                style: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'DM Sans',
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmallFamily),
-                                    ),
+                                'CHANGE PASSWORD',
+                                style: FlutterFlowTheme.of(context).titleMedium,
                               ),
                               FlutterFlowIconButton(
                                 borderColor: Colors.transparent,
@@ -456,7 +376,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
+                        width: MediaQuery.sizeOf(context).width * 0.9,
                         height: 60.0,
                         decoration: BoxDecoration(
                           color:
@@ -476,11 +396,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Terms of Services',
+                                'TERM OF SERVICES',
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'DM Sans',
+                                      fontFamily: 'Kyrilla',
                                       useGoogleFonts: GoogleFonts.asMap()
                                           .containsKey(
                                               FlutterFlowTheme.of(context)
@@ -529,7 +449,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                   textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        fontFamily: 'DM Sans',
+                        fontFamily: 'Kyrilla',
                         useGoogleFonts: GoogleFonts.asMap().containsKey(
                             FlutterFlowTheme.of(context).titleSmallFamily),
                       ),
@@ -558,10 +478,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         backgroundColor: Colors.transparent,
                         barrierColor: Color(0x00000000),
                         context: context,
-                        builder: (bottomSheetContext) {
+                        builder: (context) {
                           return Padding(
-                            padding:
-                                MediaQuery.of(bottomSheetContext).viewInsets,
+                            padding: MediaQuery.viewInsetsOf(context),
                             child: ChangePhotoCopyCopyWidget(),
                           );
                         },
@@ -574,7 +493,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
+                        width: MediaQuery.sizeOf(context).width * 0.9,
                         height: 60.0,
                         decoration: BoxDecoration(
                           color:
@@ -594,11 +513,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Delete Account',
+                                'DELETE ACCOUNT',
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'DM Sans',
+                                      fontFamily: 'Kyrilla',
                                       useGoogleFonts: GoogleFonts.asMap()
                                           .containsKey(
                                               FlutterFlowTheme.of(context)

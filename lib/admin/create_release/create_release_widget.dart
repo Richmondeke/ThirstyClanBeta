@@ -77,6 +77,8 @@ class _CreateReleaseWidgetState extends State<CreateReleaseWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -151,6 +153,7 @@ class _CreateReleaseWidgetState extends State<CreateReleaseWidget>
                             validateFileFormat(m.storagePath, context))) {
                       setState(() => _model.isDataUploading = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
+
                       var downloadUrls = <String>[];
                       try {
                         showUploadMessage(
@@ -615,18 +618,25 @@ class _CreateReleaseWidgetState extends State<CreateReleaseWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 44.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    final newReleaseCreateData = createNewReleaseRecordData(
+                    var newReleaseRecordReference =
+                        NewReleaseRecord.collection.doc();
+                    await newReleaseRecordReference
+                        .set(createNewReleaseRecordData(
                       albumArt: _model.uploadedFileUrl,
                       albumName: _model.textController1.text,
                       appleMusic: _model.appleMusicController.text,
                       spotify: _model.spotifyController.text,
                       artisteName: _model.artisteNameController.text,
-                    );
-                    var newReleaseRecordReference =
-                        NewReleaseRecord.collection.doc();
-                    await newReleaseRecordReference.set(newReleaseCreateData);
+                    ));
                     _model.createdPost = NewReleaseRecord.getDocumentFromData(
-                        newReleaseCreateData, newReleaseRecordReference);
+                        createNewReleaseRecordData(
+                          albumArt: _model.uploadedFileUrl,
+                          albumName: _model.textController1.text,
+                          appleMusic: _model.appleMusicController.text,
+                          spotify: _model.spotifyController.text,
+                          artisteName: _model.artisteNameController.text,
+                        ),
+                        newReleaseRecordReference);
 
                     context.pushNamed('SuccessfulMusic');
 

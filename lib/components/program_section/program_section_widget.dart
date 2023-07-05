@@ -34,6 +34,8 @@ class _ProgramSectionWidgetState extends State<ProgramSectionWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ProgramSectionModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

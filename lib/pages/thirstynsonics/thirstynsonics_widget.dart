@@ -27,7 +27,6 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
   late ThirstynsonicsModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
@@ -62,13 +61,14 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -77,7 +77,7 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -88,7 +88,7 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 1.0,
+                  width: MediaQuery.sizeOf(context).width * 1.0,
                   height: 160.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryBackground,
@@ -108,7 +108,7 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
                           children: [
                             SelectionArea(
                                 child: Text(
-                              'Thirsty Sonics',
+                              'THIRSTY SONICS',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -124,7 +124,7 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
                             )),
                             SelectionArea(
                                 child: Text(
-                              'Discover the Thirsty Discography',
+                              'DISCOVER THE THIRSTY DISCOGRAPHY',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -311,14 +311,32 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
                                                           ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .titleMedium,
+                                                              .titleMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Kyrilla',
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .titleMediumFamily),
+                                                              ),
                                                         ),
                                                         Text(
                                                           horizontalListNewReleaseRecord
                                                               .artisteName,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .bodyMedium,
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Kyrilla',
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyMediumFamily),
+                                                              ),
                                                         ),
                                                       ],
                                                     ),
@@ -399,7 +417,7 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
                                         onTap: () async {
                                           context.pushNamed(
                                             'Artistedetail',
-                                            queryParams: {
+                                            queryParameters: {
                                               'artiste': serializeParam(
                                                 listViewArtisteRecord,
                                                 ParamType.Document,

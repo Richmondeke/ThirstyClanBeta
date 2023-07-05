@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 class EditprofileModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for emailAddress widget.
   TextEditingController? emailAddressController;
@@ -38,10 +39,12 @@ class EditprofileModel extends FlutterFlowModel {
   }
 
   void dispose() {
+    unfocusNode.dispose();
     emailAddressController?.dispose();
     textController2?.dispose();
   }
 
-  /// Additional helper methods are added here.
+  /// Action blocks are added here.
 
+  /// Additional helper methods are added here.
 }

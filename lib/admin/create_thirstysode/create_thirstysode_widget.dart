@@ -76,6 +76,8 @@ class _CreateThirstysodeWidgetState extends State<CreateThirstysodeWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -150,6 +152,7 @@ class _CreateThirstysodeWidgetState extends State<CreateThirstysodeWidget>
                             validateFileFormat(m.storagePath, context))) {
                       setState(() => _model.isDataUploading = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
+
                       var downloadUrls = <String>[];
                       try {
                         showUploadMessage(
@@ -452,18 +455,25 @@ class _CreateThirstysodeWidgetState extends State<CreateThirstysodeWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 44.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    final thirstySodeCreateData = createThirstySodeRecordData(
+                    var thirstySodeRecordReference =
+                        ThirstySodeRecord.collection.doc();
+                    await thirstySodeRecordReference
+                        .set(createThirstySodeRecordData(
                       thumbnail: _model.uploadedFileUrl,
                       episodeName: _model.textController1.text,
                       youtube: _model.youtubeController.text,
                       description: '',
                       episodeNumber: '',
-                    );
-                    var thirstySodeRecordReference =
-                        ThirstySodeRecord.collection.doc();
-                    await thirstySodeRecordReference.set(thirstySodeCreateData);
+                    ));
                     _model.createdPost = ThirstySodeRecord.getDocumentFromData(
-                        thirstySodeCreateData, thirstySodeRecordReference);
+                        createThirstySodeRecordData(
+                          thumbnail: _model.uploadedFileUrl,
+                          episodeName: _model.textController1.text,
+                          youtube: _model.youtubeController.text,
+                          description: '',
+                          episodeNumber: '',
+                        ),
+                        thirstySodeRecordReference);
                     context.pop();
 
                     setState(() {});

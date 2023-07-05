@@ -83,6 +83,8 @@ class _EditArtisteWidgetState extends State<EditArtisteWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -157,6 +159,7 @@ class _EditArtisteWidgetState extends State<EditArtisteWidget>
                             validateFileFormat(m.storagePath, context))) {
                       setState(() => _model.isDataUploading = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
+
                       var downloadUrls = <String>[];
                       try {
                         showUploadMessage(
@@ -801,7 +804,7 @@ class _EditArtisteWidgetState extends State<EditArtisteWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 44.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    final artisteUpdateData = createArtisteRecordData(
+                    await widget.artiste!.update(createArtisteRecordData(
                       artistename: _model.textController1.text,
                       artistedescription: _model.descriptiomController.text,
                       instagram: _model.instagramController.text,
@@ -810,8 +813,7 @@ class _EditArtisteWidgetState extends State<EditArtisteWidget>
                       appleMusic: _model.appleMusicController.text,
                       spotify: _model.spotifyController.text,
                       artisteimage: _model.uploadedFileUrl,
-                    );
-                    await widget.artiste!.update(artisteUpdateData);
+                    ));
                     context.pop();
                   },
                   text: 'Save Changes',

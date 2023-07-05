@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -71,6 +73,14 @@ class NotificationsRecord extends FirestoreRecord {
   @override
   String toString() =>
       'NotificationsRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationsRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createNotificationsRecordData({
@@ -91,4 +101,25 @@ Map<String, dynamic> createNotificationsRecordData({
   );
 
   return firestoreData;
+}
+
+class NotificationsRecordDocumentEquality
+    implements Equality<NotificationsRecord> {
+  const NotificationsRecordDocumentEquality();
+
+  @override
+  bool equals(NotificationsRecord? e1, NotificationsRecord? e2) {
+    return e1?.title == e2?.title &&
+        e1?.image == e2?.image &&
+        e1?.desc == e2?.desc &&
+        e1?.decide == e2?.decide &&
+        e1?.timeposted == e2?.timeposted;
+  }
+
+  @override
+  int hash(NotificationsRecord? e) => const ListEquality()
+      .hash([e?.title, e?.image, e?.desc, e?.decide, e?.timeposted]);
+
+  @override
+  bool isValidKey(Object? o) => o is NotificationsRecord;
 }

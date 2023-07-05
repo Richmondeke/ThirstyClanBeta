@@ -30,6 +30,8 @@ class _NavBarWithMiddleButtonWidgetState
   void initState() {
     super.initState();
     _model = createModel(context, () => NavBarWithMiddleButtonModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -44,6 +46,16 @@ class EventsRecord extends FirestoreRecord {
   String get eventLocationName => _eventLocationName ?? '';
   bool hasEventLocationName() => _eventLocationName != null;
 
+  // "registered" field.
+  bool? _registered;
+  bool get registered => _registered ?? false;
+  bool hasRegistered() => _registered != null;
+
+  // "eventvideo" field.
+  String? _eventvideo;
+  String get eventvideo => _eventvideo ?? '';
+  bool hasEventvideo() => _eventvideo != null;
+
   void _initializeFields() {
     _eventName = snapshotData['eventName'] as String?;
     _eventTime = snapshotData['eventTime'] as DateTime?;
@@ -51,6 +63,8 @@ class EventsRecord extends FirestoreRecord {
     _eventDescription = snapshotData['eventDescription'] as String?;
     _eventPhoto = snapshotData['eventPhoto'] as String?;
     _eventLocationName = snapshotData['eventLocationName'] as String?;
+    _registered = snapshotData['registered'] as bool?;
+    _eventvideo = snapshotData['eventvideo'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -76,6 +90,14 @@ class EventsRecord extends FirestoreRecord {
   @override
   String toString() =>
       'EventsRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is EventsRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createEventsRecordData({
@@ -85,6 +107,8 @@ Map<String, dynamic> createEventsRecordData({
   String? eventDescription,
   String? eventPhoto,
   String? eventLocationName,
+  bool? registered,
+  String? eventvideo,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -94,8 +118,41 @@ Map<String, dynamic> createEventsRecordData({
       'eventDescription': eventDescription,
       'eventPhoto': eventPhoto,
       'eventLocationName': eventLocationName,
+      'registered': registered,
+      'eventvideo': eventvideo,
     }.withoutNulls,
   );
 
   return firestoreData;
+}
+
+class EventsRecordDocumentEquality implements Equality<EventsRecord> {
+  const EventsRecordDocumentEquality();
+
+  @override
+  bool equals(EventsRecord? e1, EventsRecord? e2) {
+    return e1?.eventName == e2?.eventName &&
+        e1?.eventTime == e2?.eventTime &&
+        e1?.eventLocation == e2?.eventLocation &&
+        e1?.eventDescription == e2?.eventDescription &&
+        e1?.eventPhoto == e2?.eventPhoto &&
+        e1?.eventLocationName == e2?.eventLocationName &&
+        e1?.registered == e2?.registered &&
+        e1?.eventvideo == e2?.eventvideo;
+  }
+
+  @override
+  int hash(EventsRecord? e) => const ListEquality().hash([
+        e?.eventName,
+        e?.eventTime,
+        e?.eventLocation,
+        e?.eventDescription,
+        e?.eventPhoto,
+        e?.eventLocationName,
+        e?.registered,
+        e?.eventvideo
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is EventsRecord;
 }

@@ -26,6 +26,8 @@ class _NotificationWidgetState extends State<NotificationWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => NotificationModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -62,7 +64,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
         title: Text(
           'Notifications',
           style: FlutterFlowTheme.of(context).headlineSmall.override(
-                fontFamily: 'DM Sans',
+                fontFamily: 'Kyrilla',
                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                     FlutterFlowTheme.of(context).headlineSmallFamily),
               ),
@@ -72,8 +74,8 @@ class _NotificationWidgetState extends State<NotificationWidget> {
         elevation: 0.0,
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width * 1.0,
-        height: MediaQuery.of(context).size.height * 1.0,
+        width: MediaQuery.sizeOf(context).width * 1.0,
+        height: MediaQuery.sizeOf(context).height * 1.0,
         decoration: BoxDecoration(),
         child: StreamBuilder<GuestsRecord>(
           stream: GuestsRecord.getDocument(currentUserReference!),
@@ -104,11 +106,11 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                       children: [
                         Expanded(
                           child: Text(
-                            'Choose what notifcations you want to recieve below and we will update the settings.',
+                            'CHOOSE WHAT NOTIFICATIONS YOU WANT TO RECEIVE BELOW AND WE WILL UPDATE THE SETTINGS.',
                             style: FlutterFlowTheme.of(context)
                                 .bodySmall
                                 .override(
-                                  fontFamily: 'DM Sans',
+                                  fontFamily: 'Kyrilla',
                                   useGoogleFonts: GoogleFonts.asMap()
                                       .containsKey(FlutterFlowTheme.of(context)
                                           .bodySmallFamily),
@@ -127,7 +129,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                         setState(() => _model.switchListTileValue1 = newValue!);
                       },
                       title: Text(
-                        'Push Notifications',
+                        'PUSH NOTIFICATIONS',
                         style:
                             FlutterFlowTheme.of(context).headlineSmall.override(
                                   fontFamily: 'DM Sans',
@@ -160,19 +162,19 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                       setState(() => _model.switchListTileValue2 = newValue!);
                     },
                     title: Text(
-                      'Email Notifications',
+                      'EMAIL NOTIFICATIONS',
                       style:
                           FlutterFlowTheme.of(context).headlineSmall.override(
-                                fontFamily: 'DM Sans',
+                                fontFamily: 'Kyrilla',
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
                                         .headlineSmallFamily),
                               ),
                     ),
                     subtitle: Text(
-                      'Receive email notifications from our marketing team about new features.',
+                      'RECEIVE EMAIL NOTIFICATIONS FROM OUR MARKETING TEAM ABOUT NEW FEATURES.',
                       style: FlutterFlowTheme.of(context).bodySmall.override(
-                            fontFamily: 'DM Sans',
+                            fontFamily: 'Kyrilla',
                             useGoogleFonts: GoogleFonts.asMap().containsKey(
                                 FlutterFlowTheme.of(context).bodySmallFamily),
                           ),
@@ -192,7 +194,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                       onPressed: () async {
                         context.pop();
                       },
-                      text: 'Save Changes',
+                      text: 'SAVE CHANGES',
                       options: FFButtonOptions(
                         width: 190.0,
                         height: 50.0,
@@ -201,16 +203,14 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                         iconPadding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primary,
-                        textStyle: FlutterFlowTheme.of(context)
-                            .titleSmall
-                            .override(
-                              fontFamily:
-                                  FlutterFlowTheme.of(context).titleSmallFamily,
-                              color: Colors.white,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  FlutterFlowTheme.of(context)
-                                      .titleSmallFamily),
-                            ),
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  fontFamily: 'Kyrilla',
+                                  color: Colors.white,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .titleSmallFamily),
+                                ),
                         elevation: 3.0,
                         borderSide: BorderSide(
                           color: Colors.transparent,

@@ -22,19 +22,19 @@ class _CompleteProfileReminderWidgetState
   late CompleteProfileReminderModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => CompleteProfileReminderModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -43,7 +43,7 @@ class _CompleteProfileReminderWidgetState
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBtnText,
@@ -92,7 +92,7 @@ class _CompleteProfileReminderWidgetState
                           labelStyle: FlutterFlowTheme.of(context)
                               .titleMedium
                               .override(
-                                fontFamily: 'Sora',
+                                fontFamily: 'Kyrilla',
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
                                         .titleMediumFamily),
@@ -100,7 +100,7 @@ class _CompleteProfileReminderWidgetState
                           indicatorColor: Color(0xFFFC0004),
                           tabs: [
                             Tab(
-                              text: 'Complete Profile',
+                              text: 'COMPLETE PROFILE',
                             ),
                           ],
                         ),
@@ -127,12 +127,12 @@ class _CompleteProfileReminderWidgetState
                                       ),
                                     ),
                                     Text(
-                                      'Hey Buddy, check your email to complete your profile verification. Also check your spam box.',
+                                      'HEY BUDDY,CHECK YOUR EMAIL TO COMPLETE YOUR PROFILE AND LOG IN',
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'DM Sans',
+                                            fontFamily: 'Kyrilla',
                                             useGoogleFonts: GoogleFonts.asMap()
                                                 .containsKey(
                                                     FlutterFlowTheme.of(context)
@@ -161,7 +161,7 @@ class _CompleteProfileReminderWidgetState
                                                   context)
                                               .titleSmall
                                               .override(
-                                                fontFamily: 'Sora',
+                                                fontFamily: 'Kyrilla',
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primary,

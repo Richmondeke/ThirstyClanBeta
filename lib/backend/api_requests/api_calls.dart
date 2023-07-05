@@ -95,7 +95,7 @@ class FlutterwaveCheckoutCall {
   "tx_ref": "${txRef}",
   "amount": ${amount},
   "currency": "${currency}",
-  "redirect_url": "https://webhook.site/9d0b00ba-9a69-44fa-a43d-a82c33c36fdc",
+  "redirect_url": "thirsty://payment/Success",
   "meta": {
     "consumer_id": 23,
     "consumer_mac": "92a3-912ba-1192a"
@@ -116,7 +116,7 @@ class FlutterwaveCheckoutCall {
       callType: ApiCallType.POST,
       headers: {
         'Authorization':
-            'Bearer FLWSECK_TEST-bc60be4cd9d26b8219c634d08092dff0-X',
+            'Bearer FLWSECK_TEST-b0dda3e0e395079ea1d05aa53f0678a5-X',
       },
       params: {},
       body: body,
@@ -201,11 +201,8 @@ class PaystackCall {
     final billingInfo = _serializeJson(billingInfoJson);
     final body = '''
 {
-  "amount": 43000,
   "email": "charles.ejiegbu@gmail.com",
-  "metadata": ${metadata},
-  "billing_info": ${billingInfo},
-  "callback_url": "thirsty://thirsty.com/success"
+  "amount": 43000
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'paystack',
@@ -213,7 +210,7 @@ class PaystackCall {
       callType: ApiCallType.POST,
       headers: {
         'Authorization':
-            'Bearer sk_test_75e8dfb633c3761ff17bc3b66b064977ef9579c9',
+            'Bearer sk_test_efd8b7a09183b6eb0786ebd712f3324ee339eeca',
         'Content-Type': 'application/json',
       },
       params: {},
@@ -544,6 +541,24 @@ class WebhhookCall {
   }
 }
 
+class VerifyPAystackPaymentCall {
+  static Future<ApiCallResponse> call() {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Verify PAystack payment',
+      apiUrl: 'https://api.paystack.co/transaction/verify/:reference',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'sk_live_1ca6be9efdbd0b99d369f1d701c0f4953ec7c79a',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;
@@ -569,11 +584,11 @@ String _serializeList(List? list) {
   }
 }
 
-String _serializeJson(dynamic jsonVar) {
-  jsonVar ??= {};
+String _serializeJson(dynamic jsonVar, [bool isList = false]) {
+  jsonVar ??= (isList ? [] : {});
   try {
     return json.encode(jsonVar);
   } catch (_) {
-    return '{}';
+    return isList ? '[]' : '{}';
   }
 }

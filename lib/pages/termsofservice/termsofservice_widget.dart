@@ -19,19 +19,19 @@ class _TermsofserviceWidgetState extends State<TermsofserviceWidget> {
   late TermsofserviceModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => TermsofserviceModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -40,7 +40,7 @@ class _TermsofserviceWidgetState extends State<TermsofserviceWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -107,7 +107,7 @@ class _TermsofserviceWidgetState extends State<TermsofserviceWidget> {
                       'Terms and Conditions',
                       style:
                           FlutterFlowTheme.of(context).headlineMedium.override(
-                                fontFamily: 'DM Sans',
+                                fontFamily: 'Kyrilla',
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
                                         .headlineMediumFamily),
@@ -156,7 +156,7 @@ class _TermsofserviceWidgetState extends State<TermsofserviceWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'DM Sans',
+                                  fontFamily: 'Kyrilla',
                                   useGoogleFonts: GoogleFonts.asMap()
                                       .containsKey(FlutterFlowTheme.of(context)
                                           .bodyMediumFamily),

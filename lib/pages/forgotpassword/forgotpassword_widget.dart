@@ -28,6 +28,7 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
     _model = createModel(context, () => ForgotpasswordModel());
 
     _model.emailAddressController ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -87,7 +88,7 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
                           style: FlutterFlowTheme.of(context)
                               .displaySmall
                               .override(
-                                fontFamily: 'DM Sans',
+                                fontFamily: 'Kyrilla',
                                 fontSize: 16.0,
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
@@ -101,9 +102,9 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
                   child: Text(
-                    'Forgot Password',
+                    'FORGOT PASSWORD',
                     style: FlutterFlowTheme.of(context).displaySmall.override(
-                          fontFamily: 'Sora',
+                          fontFamily: 'Kyrilla',
                           fontSize: 32.0,
                           useGoogleFonts: GoogleFonts.asMap().containsKey(
                               FlutterFlowTheme.of(context).displaySmallFamily),
@@ -130,9 +131,9 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
                     child: Text(
-                      'We will send you an email with a link to reset your password, please enter the email associated with your account below.',
+                      'WE WILL SEND YOU AN EMAIL WITH A LINK TO RESET YOUR PASSWORD, PLEASE ENTER THE EMAIL ASSOCIATED WITH YOUR ACCOUNT BELOW.',
                       style: FlutterFlowTheme.of(context).bodySmall.override(
-                            fontFamily: 'DM Sans',
+                            fontFamily: 'Kyrilla',
                             useGoogleFonts: GoogleFonts.asMap().containsKey(
                                 FlutterFlowTheme.of(context).bodySmallFamily),
                           ),
@@ -162,7 +163,7 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
                 controller: _model.emailAddressController,
                 obscureText: false,
                 decoration: InputDecoration(
-                  labelText: 'Your email address...',
+                  labelText: 'YOUR EMAIL ADDRESS',
                   labelStyle: FlutterFlowTheme.of(context).bodySmall,
                   hintText: 'Enter your email...',
                   hintStyle: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -207,7 +208,7 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
                       EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 20.0, 24.0),
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'DM Sans',
+                      fontFamily: 'Kyrilla',
                       useGoogleFonts: GoogleFonts.asMap().containsKey(
                           FlutterFlowTheme.of(context).bodyMediumFamily),
                     ),
@@ -237,7 +238,7 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
 
                 context.pushNamed('CompletePasswordChange');
               },
-              text: 'Send Link',
+              text: 'SEND LINK',
               options: FFButtonOptions(
                 width: 270.0,
                 height: 50.0,

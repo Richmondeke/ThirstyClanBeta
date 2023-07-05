@@ -23,7 +23,6 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
   late WearThirstyShopModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
@@ -31,13 +30,13 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
     _model = createModel(context, () => WearThirstyShopModel());
 
     _model.textController ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -46,7 +45,7 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
@@ -54,7 +53,7 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 1.0,
+              width: MediaQuery.sizeOf(context).width * 1.0,
               height: 160.0,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -129,7 +128,7 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          context.pushNamed('checkoutpage');
+                          context.pushNamed('Cart');
                         },
                         child: badges.Badge(
                           badgeContent: Text(
@@ -164,7 +163,7 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
                               size: 30.0,
                             ),
                             onPressed: () async {
-                              context.pushNamed('checkoutpage');
+                              context.pushNamed('Cart');
                             },
                           ),
                         ),
@@ -255,7 +254,7 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
-                                  fontFamily: 'DM Sans',
+                                  fontFamily: 'Kyrilla',
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryText,
                                   useGoogleFonts: GoogleFonts.asMap()
@@ -269,7 +268,7 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
-                                fontFamily: 'DM Sans',
+                                fontFamily: 'Kyrilla',
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
                                         .bodyMediumFamily),
@@ -319,24 +318,17 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
                               highlightColor: Colors.transparent,
                               onTap: () async {
                                 context.pushNamed(
-                                  'Productdetails',
-                                  queryParams: {
-                                    'products': serializeParam(
+                                  'Mainproductdetails',
+                                  queryParameters: {
+                                    'productId': serializeParam(
                                       wrapProductsRecord.reference,
                                       ParamType.DocumentReference,
                                     ),
-                                    'products1': serializeParam(
-                                      wrapProductsRecord,
-                                      ParamType.Document,
-                                    ),
                                   }.withoutNulls,
-                                  extra: <String, dynamic>{
-                                    'products1': wrapProductsRecord,
-                                  },
                                 );
                               },
                               child: Container(
-                                width: MediaQuery.of(context).size.width * 0.45,
+                                width: MediaQuery.sizeOf(context).width * 0.45,
                                 height: 190.0,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
@@ -377,7 +369,7 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .titleMedium
                                               .override(
-                                                fontFamily: 'DM Sans',
+                                                fontFamily: 'Kyrilla',
                                                 useGoogleFonts: GoogleFonts
                                                         .asMap()
                                                     .containsKey(
@@ -401,7 +393,7 @@ class _WearThirstyShopWidgetState extends State<WearThirstyShopWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodySmall
                                               .override(
-                                                fontFamily: 'DM Sans',
+                                                fontFamily: 'Kyrilla',
                                                 useGoogleFonts: GoogleFonts
                                                         .asMap()
                                                     .containsKey(

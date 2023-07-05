@@ -68,6 +68,8 @@ class _MainHeroWidgetState extends State<MainHeroWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

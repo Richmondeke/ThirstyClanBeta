@@ -3,7 +3,6 @@ import '/backend/backend.dart';
 import '/components/adds/adds_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -23,21 +22,19 @@ class _HomenewWidgetState extends State<HomenewWidget> {
   late HomenewModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => HomenewModel());
 
-    _model.textController ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -46,7 +43,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -57,12 +54,12 @@ class _HomenewWidgetState extends State<HomenewWidget> {
               backgroundColor: Colors.transparent,
               barrierColor: Color(0x00000000),
               context: context,
-              builder: (bottomSheetContext) {
+              builder: (context) {
                 return GestureDetector(
                   onTap: () =>
-                      FocusScope.of(context).requestFocus(_unfocusNode),
+                      FocusScope.of(context).requestFocus(_model.unfocusNode),
                   child: Padding(
-                    padding: MediaQuery.of(bottomSheetContext).viewInsets,
+                    padding: MediaQuery.viewInsetsOf(context),
                     child: AddsWidget(),
                   ),
                 );
@@ -84,7 +81,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 1.0,
+                  width: MediaQuery.sizeOf(context).width * 1.0,
                   height: 160.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryBackground,
@@ -104,7 +101,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                           children: [
                             SelectionArea(
                                 child: Text(
-                              'Welcome',
+                              'WELCOME',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -121,7 +118,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                               builder: (context) => Text(
                                 valueOrDefault<String>(
                                   currentUserDisplayName,
-                                  'Buddy',
+                                  'THIRSTYMAN',
                                 ),
                                 maxLines: 1,
                                 style: FlutterFlowTheme.of(context)
@@ -190,162 +187,6 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                           children: [
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  1.0, 16.0, 0.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                height: 60.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBtnText,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            4.0, 0.0, 4.0, 0.0),
-                                        child: TextFormField(
-                                          controller: _model.textController,
-                                          obscureText: false,
-                                          decoration: InputDecoration(
-                                            labelText:
-                                                'What do you want to order',
-                                            labelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .override(
-                                                      fontFamily:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMediumFamily,
-                                                      color: Colors.black,
-                                                      fontSize: 12.0,
-                                                      useGoogleFonts: GoogleFonts
-                                                              .asMap()
-                                                          .containsKey(
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily),
-                                                    ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color(0x00000000),
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color(0x00000000),
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color(0x00000000),
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            focusedErrorBorder:
-                                                OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color(0x00000000),
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            prefixIcon: Icon(
-                                              Icons.search_sharp,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMediumFamily,
-                                                color: Colors.black,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMediumFamily),
-                                              ),
-                                          validator: _model
-                                              .textControllerValidator
-                                              .asValidator(context),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 8.0, 0.0),
-                                      child: FFButtonWidget(
-                                        onPressed: () async {
-                                          context.pushNamed(
-                                            'SearchprouctsCopy',
-                                            queryParams: {
-                                              'searchTerm': serializeParam(
-                                                _model.textController.text,
-                                                ParamType.String,
-                                              ),
-                                            }.withoutNulls,
-                                          );
-                                        },
-                                        text: 'Search',
-                                        options: FFButtonOptions(
-                                          width: 100.0,
-                                          height: 40.0,
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          iconPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          color: Color(0xFFFFC748),
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .titleSmall
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmallFamily,
-                                                color: Colors.black,
-                                                fontSize: 16.0,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleSmallFamily),
-                                              ),
-                                          elevation: 2.0,
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(50.0),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -390,13 +231,13 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                   0.0, 40.0, 0.0, 0.0),
                               child: SelectionArea(
                                   child: Text(
-                                'Visit Stores',
+                                'VISIT STORES',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               )),
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 20.0, 0.0, 0.0),
+                                  0.0, 12.0, 0.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -413,7 +254,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                       context.pushNamed('shop2');
                                     },
                                     child: Container(
-                                      width: 152.0,
+                                      width: 160.0,
                                       height: 128.0,
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
@@ -441,7 +282,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                             ),
                                             SelectionArea(
                                                 child: Text(
-                                              'Thirsty Laboratory',
+                                              'THIRSTY LABORATORY',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -473,10 +314,10 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                     onTap: () async {
                                       HapticFeedback.heavyImpact();
 
-                                      context.pushNamed('shop2Copy');
+                                      context.pushNamed('WearThirstyShop');
                                     },
                                     child: Container(
-                                      width: 152.0,
+                                      width: 160.0,
                                       height: 128.0,
                                       decoration: BoxDecoration(
                                         color: Colors.black,
@@ -503,7 +344,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                             ),
                                             SelectionArea(
                                                 child: Text(
-                                              'Wear Thirsty',
+                                              'WEAR THIRSTY',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -535,12 +376,15 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                   0.0, 40.0, 0.0, 12.0),
                               child: SelectionArea(
                                   child: Text(
-                                'Futur Drops',
+                                'FUTURE DROPS',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               )),
                             ),
                             StreamBuilder<List<ProductsRecord>>(
-                              stream: queryProductsRecord(),
+                              stream: queryProductsRecord(
+                                queryBuilder: (productsRecord) => productsRecord
+                                    .orderBy('Created', descending: true),
+                              ),
                               builder: (context, snapshot) {
                                 // Customize what your widget looks like when it's loading.
                                 if (!snapshot.hasData) {
@@ -574,16 +418,13 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
                                         context.pushNamed(
-                                          'Productdetails',
-                                          queryParams: {
-                                            'products1': serializeParam(
-                                              listViewProductsRecord,
-                                              ParamType.Document,
+                                          'Mainproductdetails',
+                                          queryParameters: {
+                                            'productId': serializeParam(
+                                              listViewProductsRecord.reference,
+                                              ParamType.DocumentReference,
                                             ),
                                           }.withoutNulls,
-                                          extra: <String, dynamic>{
-                                            'products1': listViewProductsRecord,
-                                          },
                                         );
                                       },
                                       child: Container(

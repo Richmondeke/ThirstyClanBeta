@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -14,40 +16,10 @@ class CartRecord extends FirestoreRecord {
     _initializeFields();
   }
 
-  // "Product" field.
-  String? _product;
-  String get product => _product ?? '';
-  bool hasProduct() => _product != null;
-
-  // "Amount" field.
-  int? _amount;
-  int get amount => _amount ?? 0;
-  bool hasAmount() => _amount != null;
-
   // "Quantity" field.
   int? _quantity;
   int get quantity => _quantity ?? 0;
   bool hasQuantity() => _quantity != null;
-
-  // "Size" field.
-  int? _size;
-  int get size => _size ?? 0;
-  bool hasSize() => _size != null;
-
-  // "status" field.
-  String? _status;
-  String get status => _status ?? '';
-  bool hasStatus() => _status != null;
-
-  // "image" field.
-  String? _image;
-  String get image => _image ?? '';
-  bool hasImage() => _image != null;
-
-  // "Size1" field.
-  String? _size1;
-  String get size1 => _size1 ?? '';
-  bool hasSize1() => _size1 != null;
 
   // "user" field.
   DocumentReference? _user;
@@ -59,22 +31,16 @@ class CartRecord extends FirestoreRecord {
   DocumentReference? get productref => _productref;
   bool hasProductref() => _productref != null;
 
-  // "CardItemTotal" field.
-  int? _cardItemTotal;
-  int get cardItemTotal => _cardItemTotal ?? 0;
-  bool hasCardItemTotal() => _cardItemTotal != null;
+  // "isDelivered" field.
+  bool? _isDelivered;
+  bool get isDelivered => _isDelivered ?? false;
+  bool hasIsDelivered() => _isDelivered != null;
 
   void _initializeFields() {
-    _product = snapshotData['Product'] as String?;
-    _amount = snapshotData['Amount'] as int?;
-    _quantity = snapshotData['Quantity'] as int?;
-    _size = snapshotData['Size'] as int?;
-    _status = snapshotData['status'] as String?;
-    _image = snapshotData['image'] as String?;
-    _size1 = snapshotData['Size1'] as String?;
+    _quantity = castToType<int>(snapshotData['Quantity']);
     _user = snapshotData['user'] as DocumentReference?;
     _productref = snapshotData['productref'] as DocumentReference?;
-    _cardItemTotal = snapshotData['CardItemTotal'] as int?;
+    _isDelivered = snapshotData['isDelivered'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -100,34 +66,49 @@ class CartRecord extends FirestoreRecord {
   @override
   String toString() =>
       'CartRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is CartRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createCartRecordData({
-  String? product,
-  int? amount,
   int? quantity,
-  int? size,
-  String? status,
-  String? image,
-  String? size1,
   DocumentReference? user,
   DocumentReference? productref,
-  int? cardItemTotal,
+  bool? isDelivered,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
-      'Product': product,
-      'Amount': amount,
       'Quantity': quantity,
-      'Size': size,
-      'status': status,
-      'image': image,
-      'Size1': size1,
       'user': user,
       'productref': productref,
-      'CardItemTotal': cardItemTotal,
+      'isDelivered': isDelivered,
     }.withoutNulls,
   );
 
   return firestoreData;
+}
+
+class CartRecordDocumentEquality implements Equality<CartRecord> {
+  const CartRecordDocumentEquality();
+
+  @override
+  bool equals(CartRecord? e1, CartRecord? e2) {
+    return e1?.quantity == e2?.quantity &&
+        e1?.user == e2?.user &&
+        e1?.productref == e2?.productref &&
+        e1?.isDelivered == e2?.isDelivered;
+  }
+
+  @override
+  int hash(CartRecord? e) => const ListEquality()
+      .hash([e?.quantity, e?.user, e?.productref, e?.isDelivered]);
+
+  @override
+  bool isValidKey(Object? o) => o is CartRecord;
 }

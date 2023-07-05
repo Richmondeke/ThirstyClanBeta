@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -47,6 +49,14 @@ class InappAdsRecord extends FirestoreRecord {
   @override
   String toString() =>
       'InappAdsRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is InappAdsRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createInappAdsRecordData({
@@ -59,4 +69,19 @@ Map<String, dynamic> createInappAdsRecordData({
   );
 
   return firestoreData;
+}
+
+class InappAdsRecordDocumentEquality implements Equality<InappAdsRecord> {
+  const InappAdsRecordDocumentEquality();
+
+  @override
+  bool equals(InappAdsRecord? e1, InappAdsRecord? e2) {
+    return e1?.image == e2?.image;
+  }
+
+  @override
+  int hash(InappAdsRecord? e) => const ListEquality().hash([e?.image]);
+
+  @override
+  bool isValidKey(Object? o) => o is InappAdsRecord;
 }

@@ -79,6 +79,8 @@ class _CreateArtisteWidgetState extends State<CreateArtisteWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -153,6 +155,7 @@ class _CreateArtisteWidgetState extends State<CreateArtisteWidget>
                             validateFileFormat(m.storagePath, context))) {
                       setState(() => _model.isDataUploading = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
+
                       var downloadUrls = <String>[];
                       try {
                         showUploadMessage(
@@ -804,7 +807,8 @@ class _CreateArtisteWidgetState extends State<CreateArtisteWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 44.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    final artisteCreateData = createArtisteRecordData(
+                    var artisteRecordReference = ArtisteRecord.collection.doc();
+                    await artisteRecordReference.set(createArtisteRecordData(
                       artistename: _model.textController1.text,
                       artistedescription: _model.locationNameController.text,
                       instagram: _model.instagramController.text,
@@ -813,11 +817,20 @@ class _CreateArtisteWidgetState extends State<CreateArtisteWidget>
                       appleMusic: _model.appleMusicController.text,
                       spotify: _model.spotifyController.text,
                       artisteimage: _model.uploadedFileUrl,
-                    );
-                    var artisteRecordReference = ArtisteRecord.collection.doc();
-                    await artisteRecordReference.set(artisteCreateData);
+                    ));
                     _model.createdPost = ArtisteRecord.getDocumentFromData(
-                        artisteCreateData, artisteRecordReference);
+                        createArtisteRecordData(
+                          artistename: _model.textController1.text,
+                          artistedescription:
+                              _model.locationNameController.text,
+                          instagram: _model.instagramController.text,
+                          tikTok: _model.tikTokController.text,
+                          twitter: _model.twitterController.text,
+                          appleMusic: _model.appleMusicController.text,
+                          spotify: _model.spotifyController.text,
+                          artisteimage: _model.uploadedFileUrl,
+                        ),
+                        artisteRecordReference);
 
                     context.pushNamed('Artistesuccessful');
 

@@ -33,6 +33,8 @@ class _CountWidgetState extends State<CountWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CountModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

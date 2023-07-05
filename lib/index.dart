@@ -43,11 +43,9 @@ export '/pages/complete_profile_reminder/complete_profile_reminder_widget.dart'
     show CompleteProfileReminderWidget;
 export '/pages/first_time_signup/first_time_signup_widget.dart'
     show FirstTimeSignupWidget;
-export '/pages/productdetails/productdetails_widget.dart'
-    show ProductdetailsWidget;
-export '/pages/checkoutpage/checkoutpage_widget.dart' show CheckoutpageWidget;
 export '/pages/orderhistory/orderhistory_widget.dart' show OrderhistoryWidget;
-export '/pages/enter_card/enter_card_widget.dart' show EnterCardWidget;
+export '/pages/enter_a_d_d_r_e_s_s/enter_a_d_d_r_e_s_s_widget.dart'
+    show EnterADDRESSWidget;
 export '/pages/success/success_widget.dart' show SuccessWidget;
 export '/pages/termsofservice/termsofservice_widget.dart'
     show TermsofserviceWidget;
@@ -69,21 +67,18 @@ export '/pages/shop/shop_widget.dart' show ShopWidget;
 export '/pages/wear_thirsty_shop/wear_thirsty_shop_widget.dart'
     show WearThirstyShopWidget;
 export '/pages/shop2/shop2_widget.dart' show Shop2Widget;
-export '/pages/shop2_copy/shop2_copy_widget.dart' show Shop2CopyWidget;
 export '/pages/onboarding_screens/onboarding_screens_widget.dart'
     show OnboardingScreensWidget;
-export '/pages/oldscz/cart/cart_widget.dart' show CartWidget;
 export '/pages/oldscz/searchproucts_copy/searchproucts_copy_widget.dart'
     show SearchprouctsCopyWidget;
-export '/pages/oldscz/checkoutpage_copy/checkoutpage_copy_widget.dart'
-    show CheckoutpageCopyWidget;
-export '/pages/oldscz/checkoutpage_copy2/checkoutpage_copy2_widget.dart'
-    show CheckoutpageCopy2Widget;
-export '/pages/oldscz/shop_neew/shop_neew_widget.dart' show ShopNeewWidget;
+export '/pages/oldscz/cart/cart_widget.dart' show CartWidget;
+export '/pages/shop_neew/shop_neew_widget.dart' show ShopNeewWidget;
 export '/pages/oldscz/menu/menu_widget.dart' show MenuWidget;
-export '/pages/oldscz/productdetails_new/productdetails_new_widget.dart'
-    show ProductdetailsNewWidget;
-export '/pages/oldscz/checkoutpagenew/checkoutpagenew_widget.dart'
-    show CheckoutpagenewWidget;
-export '/pages/paymentmodal2/paymentmodal2_widget.dart'
-    show Paymentmodal2Widget;
+export '/pages/success_copy/success_copy_widget.dart' show SuccessCopyWidget;
+export '/pages/successnot/successnot_widget.dart' show SuccessnotWidget;
+export '/tickets/tickets_widget.dart' show TicketsWidget;
+export '/mainproductdetails/mainproductdetails_widget.dart'
+    show MainproductdetailsWidget;
+export '/home15_store/home15_store_widget.dart' show Home15StoreWidget;
+export '/ticketdetails/ticketdetails_widget.dart' show TicketdetailsWidget;
+export '/ticket/ticket_widget.dart' show TicketWidget;

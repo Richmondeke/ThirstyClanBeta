@@ -14,10 +14,12 @@ class SuccessWidget extends StatefulWidget {
     Key? key,
     this.amount,
     this.txnreference,
+    this.status,
   }) : super(key: key);
 
   final String? amount;
   final String? txnreference;
+  final String? status;
 
   @override
   _SuccessWidgetState createState() => _SuccessWidgetState();
@@ -32,6 +34,8 @@ class _SuccessWidgetState extends State<SuccessWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SuccessModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -70,7 +74,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
                       size: 20.0,
                     ),
                     onPressed: () async {
-                      context.pop();
+                      context.pushNamed('orderhistory');
                     },
                   ),
                 ],
@@ -80,7 +84,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
               child: Card(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                color: Color(0xFF4B39EF),
+                color: FlutterFlowTheme.of(context).primaryText,
                 elevation: 3.0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0),
@@ -99,10 +103,10 @@ class _SuccessWidgetState extends State<SuccessWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
               child: Text(
-                'Payment Processing!',
+                'PAYMENT SUCCESSFUL',
                 style: FlutterFlowTheme.of(context).displaySmall.override(
-                      fontFamily: 'DM Sans',
-                      color: Color(0xFF4B39EF),
+                      fontFamily: 'Kyrilla',
+                      color: FlutterFlowTheme.of(context).primaryText,
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                       useGoogleFonts: GoogleFonts.asMap().containsKey(
@@ -125,10 +129,10 @@ class _SuccessWidgetState extends State<SuccessWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(24.0, 8.0, 24.0, 0.0),
               child: Text(
-                'Your pre-order is being confirmed, it may take 1-2 hours in order for your payment to go through and show up in your order list.',
+                'YOUR ORDER IS SUCCESSFUL, CHECK YOUR ORDER HISTORY TO TRACK YOUR PURCHASE.',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).bodySmall.override(
-                      fontFamily: 'DM Sans',
+                      fontFamily: 'Kyrilla',
                       useGoogleFonts: GoogleFonts.asMap().containsKey(
                           FlutterFlowTheme.of(context).bodySmallFamily),
                     ),
@@ -145,7 +149,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
                       onPressed: () async {
                         context.pushNamed('orderhistory');
                       },
-                      text: 'View Order History',
+                      text: 'VIEW ORDER HISTORY',
                       options: FFButtonOptions(
                         width: 230.0,
                         height: 50.0,
@@ -157,7 +161,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
                         textStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Lexend Deca',
+                              fontFamily: 'Kyrilla',
                               color: FlutterFlowTheme.of(context).primaryText,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w500,

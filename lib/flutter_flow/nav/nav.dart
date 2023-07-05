@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
@@ -18,10 +19,17 @@ import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
+export '/backend/firebase_dynamic_links/firebase_dynamic_links.dart'
+    show generateCurrentPageLink;
 
 const kTransitionInfoKey = '__transition_info__';
 
 class AppStateNotifier extends ChangeNotifier {
+  AppStateNotifier._();
+
+  static AppStateNotifier? _instance;
+  static AppStateNotifier get instance => _instance ??= AppStateNotifier._();
+
   BaseAuthUser? initialUser;
   BaseAuthUser? user;
   bool showSplashImage = true;
@@ -49,10 +57,13 @@ class AppStateNotifier extends ChangeNotifier {
   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
   void update(BaseAuthUser newUser) {
+    final shouldUpdate =
+        user?.uid == null || newUser.uid == null || user?.uid != newUser.uid;
     initialUser ??= newUser;
     user = newUser;
     // Refresh the app on auth change unless explicitly marked otherwise.
-    if (notifyOnAuthChange) {
+    // No need to update unless the user has changed.
+    if (notifyOnAuthChange && shouldUpdate) {
       notifyListeners();
     }
     // Once again mark the notifier as needing to update on auth change
@@ -70,8 +81,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, _) =>
-          appStateNotifier.loggedIn ? NavBarPage() : OnboardingScreensWidget(),
+      errorBuilder: (context, state) => _RouteErrorBuilder(
+        state: state,
+        child: appStateNotifier.loggedIn
+            ? NavBarPage()
+            : OnboardingScreensWidget(),
+      ),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -214,50 +229,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => FirstTimeSignupWidget(),
             ),
             FFRoute(
-              name: 'Productdetails',
-              path: 'productdetails',
-              asyncParams: {
-                'products1': getDoc(['Products'], ProductsRecord.fromSnapshot),
-              },
-              builder: (context, params) => ProductdetailsWidget(
-                products: params.getParam('products',
-                    ParamType.DocumentReference, false, ['Products']),
-                products1: params.getParam('products1', ParamType.Document),
-              ),
-            ),
-            FFRoute(
-              name: 'checkoutpage',
-              path: 'checkoutpage',
-              asyncParams: {
-                'cart': getDoc(['Cart'], CartRecord.fromSnapshot),
-              },
-              builder: (context, params) => CheckoutpageWidget(
-                amount: params.getParam('amount', ParamType.int),
-                quantity: params.getParam('quantity', ParamType.int),
-                product: params.getParam('product', ParamType.String),
-                cart: params.getParam('cart', ParamType.Document),
-                carts: params.getParam(
-                    'carts', ParamType.DocumentReference, false, ['Cart']),
-              ),
-            ),
-            FFRoute(
               name: 'orderhistory',
               path: 'orderhistory',
               builder: (context, params) => OrderhistoryWidget(),
             ),
             FFRoute(
-              name: 'EnterCard',
-              path: 'enterCard',
-              builder: (context, params) => EnterCardWidget(
+              name: 'EnterADDRESS',
+              path: 'enterADDRESS',
+              builder: (context, params) => EnterADDRESSWidget(
                 amount: params.getParam('amount', ParamType.int),
               ),
             ),
             FFRoute(
               name: 'Success',
-              path: 'success',
+              path: 'Success/:status',
               builder: (context, params) => SuccessWidget(
                 amount: params.getParam('amount', ParamType.String),
                 txnreference: params.getParam('txnreference', ParamType.String),
+                status: params.getParam('status', ParamType.String),
               ),
             ),
             FFRoute(
@@ -344,19 +333,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => Shop2Widget(),
             ),
             FFRoute(
-              name: 'shop2Copy',
-              path: 'shop2Copy',
-              builder: (context, params) => Shop2CopyWidget(),
-            ),
-            FFRoute(
               name: 'OnboardingScreens',
               path: 'onboardingScreens',
               builder: (context, params) => OnboardingScreensWidget(),
-            ),
-            FFRoute(
-              name: 'Cart',
-              path: 'cart',
-              builder: (context, params) => CartWidget(),
             ),
             FFRoute(
               name: 'SearchprouctsCopy',
@@ -366,41 +345,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'checkoutpageCopy',
-              path: 'checkoutpageCopy',
-              asyncParams: {
-                'cart': getDoc(['Cart'], CartRecord.fromSnapshot),
-              },
-              builder: (context, params) => CheckoutpageCopyWidget(
-                amount: params.getParam('amount', ParamType.int),
-                quantity: params.getParam('quantity', ParamType.int),
-                product: params.getParam('product', ParamType.String),
-                cart: params.getParam('cart', ParamType.Document),
-                carts: params.getParam(
-                    'carts', ParamType.DocumentReference, false, ['Cart']),
-              ),
-            ),
-            FFRoute(
-              name: 'checkoutpageCopy2',
-              path: 'checkoutpageCopy2',
-              asyncParams: {
-                'cart': getDoc(['Cart'], CartRecord.fromSnapshot),
-              },
-              builder: (context, params) => CheckoutpageCopy2Widget(
-                amount: params.getParam('amount', ParamType.int),
-                quantity: params.getParam('quantity', ParamType.int),
-                product: params.getParam('product', ParamType.String),
-                cart: params.getParam('cart', ParamType.Document),
-                carts: params.getParam(
-                    'carts', ParamType.DocumentReference, false, ['Cart']),
-              ),
+              name: 'Cart',
+              path: 'cart',
+              builder: (context, params) => CartWidget(),
             ),
             FFRoute(
               name: 'ShopNeew',
               path: 'shopNeew',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'ShopNeew')
-                  : ShopNeewWidget(),
+              builder: (context, params) => ShopNeewWidget(),
             ),
             FFRoute(
               name: 'Menu',
@@ -408,31 +360,65 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => MenuWidget(),
             ),
             FFRoute(
-              name: 'ProductdetailsNew',
-              path: 'productdetailsNew',
-              asyncParams: {
-                'productSelection':
-                    getDoc(['MenuItems'], MenuItemsRecord.fromSnapshot),
-              },
-              builder: (context, params) => ProductdetailsNewWidget(
-                productSelection:
-                    params.getParam('productSelection', ParamType.Document),
+              name: 'SuccessCopy',
+              path: 'success/:txnreference',
+              builder: (context, params) => SuccessCopyWidget(
+                amount: params.getParam('amount', ParamType.String),
+                txnreference: params.getParam('txnreference', ParamType.String),
               ),
             ),
             FFRoute(
-              name: 'checkoutpagenew',
-              path: 'checkoutpagenew',
-              builder: (context, params) => CheckoutpagenewWidget(),
+              name: 'Successnot',
+              path: 'Successnot',
+              builder: (context, params) => SuccessnotWidget(
+                amount: params.getParam('amount', ParamType.String),
+                txnreference: params.getParam('txnreference', ParamType.String),
+                status: params.getParam('status', ParamType.String),
+              ),
             ),
             FFRoute(
-              name: 'paymentmodal2',
-              path: 'paymentmodal2',
-              builder: (context, params) => Paymentmodal2Widget(),
+              name: 'tickets',
+              path: 'tickets',
+              builder: (context, params) => TicketsWidget(),
+            ),
+            FFRoute(
+              name: 'Mainproductdetails',
+              path: 'mainproductdetails',
+              builder: (context, params) => MainproductdetailsWidget(
+                productId: params.getParam('productId',
+                    ParamType.DocumentReference, false, ['Products']),
+              ),
+            ),
+            FFRoute(
+              name: 'Home15Store',
+              path: 'home15Store',
+              asyncParams: {
+                'productdetails':
+                    getDoc(['MenuItems'], MenuItemsRecord.fromSnapshot),
+              },
+              builder: (context, params) => Home15StoreWidget(
+                productdetails:
+                    params.getParam('productdetails', ParamType.Document),
+              ),
+            ),
+            FFRoute(
+              name: 'ticketdetails',
+              path: 'ticketdetails',
+              asyncParams: {
+                'events': getDoc(['events'], EventsRecord.fromSnapshot),
+              },
+              builder: (context, params) => TicketdetailsWidget(
+                events: params.getParam('events', ParamType.Document),
+              ),
+            ),
+            FFRoute(
+              name: 'TICKET',
+              path: 'ticket',
+              builder: (context, params) => TicketWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
-      urlPathStrategy: UrlPathStrategy.path,
       observers: [routeObserver],
     );
 
@@ -448,8 +434,8 @@ extension NavigationExtensions on BuildContext {
   void goNamedAuth(
     String name,
     bool mounted, {
-    Map<String, String> params = const <String, String>{},
-    Map<String, String> queryParams = const <String, String>{},
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, String> queryParameters = const <String, String>{},
     Object? extra,
     bool ignoreRedirect = false,
   }) =>
@@ -457,16 +443,16 @@ extension NavigationExtensions on BuildContext {
           ? null
           : goNamed(
               name,
-              params: params,
-              queryParams: queryParams,
+              pathParameters: pathParameters,
+              queryParameters: queryParameters,
               extra: extra,
             );
 
   void pushNamedAuth(
     String name,
     bool mounted, {
-    Map<String, String> params = const <String, String>{},
-    Map<String, String> queryParams = const <String, String>{},
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, String> queryParameters = const <String, String>{},
     Object? extra,
     bool ignoreRedirect = false,
   }) =>
@@ -474,25 +460,24 @@ extension NavigationExtensions on BuildContext {
           ? null
           : pushNamed(
               name,
-              params: params,
-              queryParams: queryParams,
+              pathParameters: pathParameters,
+              queryParameters: queryParameters,
               extra: extra,
             );
 
   void safePop() {
     // If there is only one route on the stack, navigate to the initial
     // page instead of popping.
-    if (GoRouter.of(this).routerDelegate.matches.length <= 1) {
-      go('/');
-    } else {
+    if (canPop()) {
       pop();
+    } else {
+      go('/');
     }
   }
 }
 
 extension GoRouterExtensions on GoRouter {
-  AppStateNotifier get appState =>
-      (routerDelegate.refreshListenable as AppStateNotifier);
+  AppStateNotifier get appState => AppStateNotifier.instance;
   void prepareAuthEvent([bool ignoreRedirect = false]) =>
       appState.hasRedirect() && !ignoreRedirect
           ? null
@@ -501,16 +486,15 @@ extension GoRouterExtensions on GoRouter {
       !ignoreRedirect && appState.hasRedirect();
   void clearRedirectLocation() => appState.clearRedirectLocation();
   void setRedirectLocationIfUnset(String location) =>
-      (routerDelegate.refreshListenable as AppStateNotifier)
-          .updateNotifyOnAuthChange(false);
+      appState.updateNotifyOnAuthChange(false);
 }
 
 extension _GoRouterStateExtensions on GoRouterState {
   Map<String, dynamic> get extraMap =>
       extra != null ? extra as Map<String, dynamic> : {};
   Map<String, dynamic> get allParams => <String, dynamic>{}
-    ..addAll(params)
-    ..addAll(queryParams)
+    ..addAll(pathParameters)
+    ..addAll(queryParameters)
     ..addAll(extraMap);
   TransitionInfo get transitionInfo => extraMap.containsKey(kTransitionInfoKey)
       ? extraMap[kTransitionInfoKey] as TransitionInfo
@@ -591,7 +575,7 @@ class FFRoute {
   GoRoute toRoute(AppStateNotifier appStateNotifier) => GoRoute(
         name: name,
         path: path,
-        redirect: (state) {
+        redirect: (context, state) {
           if (appStateNotifier.shouldRedirect) {
             final redirectLocation = appStateNotifier.getRedirectLocation();
             appStateNotifier.clearRedirectLocation();
@@ -614,14 +598,10 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: Colors.transparent,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/THIRSTY_PNG_1.png',
-                      width: 300.0,
-                      height: 300.0,
-                      fit: BoxFit.contain,
-                    ),
+                  color: Colors.white,
+                  child: Image.asset(
+                    'assets/images/hirsty_(1).gif',
+                    fit: BoxFit.contain,
                   ),
                 )
               : page;
@@ -660,4 +640,32 @@ class TransitionInfo {
   final Alignment? alignment;
 
   static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+}
+
+class _RouteErrorBuilder extends StatefulWidget {
+  const _RouteErrorBuilder({
+    Key? key,
+    required this.state,
+    required this.child,
+  }) : super(key: key);
+
+  final GoRouterState state;
+  final Widget child;
+
+  @override
+  State<_RouteErrorBuilder> createState() => _RouteErrorBuilderState();
+}
+
+class _RouteErrorBuilderState extends State<_RouteErrorBuilder> {
+  @override
+  void initState() {
+    super.initState();
+    // Handle erroneous links from Firebase Dynamic Links.
+    if (widget.state.location.startsWith('/link?request_ip_version')) {
+      SchedulerBinding.instance.addPostFrameCallback((_) => context.go('/'));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

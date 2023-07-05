@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
@@ -83,7 +85,7 @@ class MenuItemsRecord extends FirestoreRecord {
     _modifiedAt = snapshotData['modified_at'] as DateTime?;
     _onSale = snapshotData['on_sale'] as bool?;
     _salePrice = castToType<double>(snapshotData['sale_price']);
-    _quantity = snapshotData['quantity'] as int?;
+    _quantity = castToType<int>(snapshotData['quantity']);
     _productPhoto = snapshotData['productPhoto'] as String?;
     _modifiers = getDataList(snapshotData['modifiers']);
     _modifiers2 = getDataList(snapshotData['modifiers_2']);
@@ -113,6 +115,14 @@ class MenuItemsRecord extends FirestoreRecord {
   @override
   String toString() =>
       'MenuItemsRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is MenuItemsRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createMenuItemsRecordData({
@@ -143,4 +153,44 @@ Map<String, dynamic> createMenuItemsRecordData({
   );
 
   return firestoreData;
+}
+
+class MenuItemsRecordDocumentEquality implements Equality<MenuItemsRecord> {
+  const MenuItemsRecordDocumentEquality();
+
+  @override
+  bool equals(MenuItemsRecord? e1, MenuItemsRecord? e2) {
+    const listEquality = ListEquality();
+    return e1?.name == e2?.name &&
+        e1?.description == e2?.description &&
+        e1?.specifications == e2?.specifications &&
+        e1?.price == e2?.price &&
+        e1?.createdAt == e2?.createdAt &&
+        e1?.modifiedAt == e2?.modifiedAt &&
+        e1?.onSale == e2?.onSale &&
+        e1?.salePrice == e2?.salePrice &&
+        e1?.quantity == e2?.quantity &&
+        e1?.productPhoto == e2?.productPhoto &&
+        listEquality.equals(e1?.modifiers, e2?.modifiers) &&
+        listEquality.equals(e1?.modifiers2, e2?.modifiers2);
+  }
+
+  @override
+  int hash(MenuItemsRecord? e) => const ListEquality().hash([
+        e?.name,
+        e?.description,
+        e?.specifications,
+        e?.price,
+        e?.createdAt,
+        e?.modifiedAt,
+        e?.onSale,
+        e?.salePrice,
+        e?.quantity,
+        e?.productPhoto,
+        e?.modifiers,
+        e?.modifiers2
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is MenuItemsRecord;
 }

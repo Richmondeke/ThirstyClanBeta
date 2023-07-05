@@ -23,16 +23,13 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
   late OnboardingScreensModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  int get pageViewCurrentIndex => _model.pageViewController != null &&
-          _model.pageViewController!.hasClients &&
-          _model.pageViewController!.page != null
-      ? _model.pageViewController!.page!.round()
-      : 0;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => OnboardingScreensModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -57,7 +54,7 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
               Expanded(
                 child: Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 1.0,
+                  height: MediaQuery.sizeOf(context).height * 1.0,
                   child: Stack(
                     children: [
                       PageView(
@@ -101,23 +98,9 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Stay Thirsty!',
+                                        'STAY THIRSTY',
                                         style: FlutterFlowTheme.of(context)
-                                            .displaySmall
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .displaySmallFamily,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .darkText,
-                                              useGoogleFonts: GoogleFonts
-                                                      .asMap()
-                                                  .containsKey(
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .displaySmallFamily),
-                                            ),
+                                            .headlineMedium,
                                       ),
                                     ],
                                   ),
@@ -130,24 +113,10 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Stay up to date on everything thirsty',
+                                          'STAY UP TO SPEED ON EVERYTHING THIRSTY',
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
-                                              .titleSmall
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmallFamily,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .darkText,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleSmallFamily),
-                                              ),
+                                              .labelLarge,
                                         ),
                                       ),
                                     ],
@@ -188,7 +157,7 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .titleSmall
                                                     .override(
-                                                      fontFamily: 'Lexend Deca',
+                                                      fontFamily: 'Kyrilla',
                                                       color: Colors.white,
                                                       fontSize: 16.0,
                                                       fontWeight:
@@ -250,23 +219,9 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Shop. Listen. Watch',
+                                        'SHOP. LISTEN. WATCH',
                                         style: FlutterFlowTheme.of(context)
-                                            .displaySmall
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .displaySmallFamily,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .tertiary,
-                                              useGoogleFonts: GoogleFonts
-                                                      .asMap()
-                                                  .containsKey(
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .displaySmallFamily),
-                                            ),
+                                            .headlineMedium,
                                       ),
                                     ],
                                   ),
@@ -279,24 +234,10 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Stay in the loop with ThirstyFeed, ThirstySonics and Shop your favorites pieces.',
+                                          'STAY IN THE LOOP WITH THIRSTYFEED, THIRSTYSONICS AND SHOP YOUR FAVORITE PIECES.',
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
-                                              .titleSmall
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmallFamily,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .tertiary,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleSmallFamily),
-                                              ),
+                                              .labelLarge,
                                         ),
                                       ),
                                     ],
@@ -399,9 +340,9 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Get Started',
+                                        'GET STARTED',
                                         style: FlutterFlowTheme.of(context)
-                                            .displaySmall,
+                                            .headlineMedium,
                                       ),
                                     ],
                                   ),
@@ -414,24 +355,10 @@ class _OnboardingScreensWidgetState extends State<OnboardingScreensWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Welcome to the Thirsty Clan',
+                                          'WELCOME TO THE THIRSTY CLAN',
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
-                                              .titleSmall
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmallFamily,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .darkText,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleSmallFamily),
-                                              ),
+                                              .labelLarge,
                                         ),
                                       ),
                                     ],

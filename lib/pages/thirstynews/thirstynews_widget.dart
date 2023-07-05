@@ -22,19 +22,19 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
   late ThirstynewsModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => ThirstynewsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -43,7 +43,7 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -54,7 +54,7 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 1.0,
+                  width: MediaQuery.sizeOf(context).width * 1.0,
                   height: 160.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryBackground,
@@ -74,7 +74,7 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
                           children: [
                             SelectionArea(
                                 child: Text(
-                              'Thirsty Feed',
+                              'THIRSTY FEED',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -90,7 +90,7 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
                             )),
                             SelectionArea(
                                 child: Text(
-                              'Stay Updated on everything Thirsty',
+                              'STAY UPDATED ON EVERYTHING THIRSTY',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -147,13 +147,13 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
                                     indicatorWeight: 5.0,
                                     tabs: [
                                       Tab(
-                                        text: 'News',
+                                        text: 'NEWS',
                                       ),
                                       Tab(
-                                        text: 'Thirstysodes',
+                                        text: 'THIRSTYSODES',
                                       ),
                                       Tab(
-                                        text: 'Events',
+                                        text: 'EVENTS',
                                       ),
                                     ],
                                   ),
@@ -224,7 +224,7 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
                                                       onTap: () async {
                                                         context.pushNamed(
                                                           'newsdetail',
-                                                          queryParams: {
+                                                          queryParameters: {
                                                             'news':
                                                                 serializeParam(
                                                               listViewNewsRecord,
@@ -412,11 +412,13 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Expanded(
+                                                            Flexible(
                                                               child:
                                                                   FlutterFlowYoutubePlayer(
                                                                 url: listViewThirstySodeRecord
                                                                     .youtube,
+                                                                width: double
+                                                                    .infinity,
                                                                 autoPlay: false,
                                                                 looping: false,
                                                                 mute: false,
@@ -528,112 +530,138 @@ class _ThirstynewsWidgetState extends State<ThirstynewsWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           24.0, 8.0, 24.0, 8.0),
-                                                  child: Container(
-                                                    width: 324.0,
-                                                    height: 100.0,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12.0),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  12.0,
-                                                                  4.0,
-                                                                  12.0,
-                                                                  4.0),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Image.network(
-                                                            listViewEventsRecord
-                                                                .eventPhoto,
-                                                            width: 64.0,
-                                                            height: 64.0,
-                                                            fit: BoxFit.cover,
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                        'ticketdetails',
+                                                        queryParameters: {
+                                                          'events':
+                                                              serializeParam(
+                                                            listViewEventsRecord,
+                                                            ParamType.Document,
                                                           ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12.0,
-                                                                          0.0,
-                                                                          8.0,
-                                                                          0.0),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                        }.withoutNulls,
+                                                        extra: <String,
+                                                            dynamic>{
+                                                          'events':
+                                                              listViewEventsRecord,
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      width: 324.0,
+                                                      height: 100.0,
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12.0),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    12.0,
+                                                                    4.0,
+                                                                    12.0,
+                                                                    4.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Image.network(
+                                                              listViewEventsRecord
+                                                                  .eventPhoto,
+                                                              width: 64.0,
+                                                              height: 64.0,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                            Expanded(
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            12.0,
                                                                             0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            4.0),
-                                                                        child: SelectionArea(
-                                                                            child: Text(
-                                                                          listViewEventsRecord
-                                                                              .eventName,
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        )),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            4.0),
-                                                                        child: SelectionArea(
-                                                                            child: Text(
-                                                                          dateTimeFormat(
-                                                                            'yMMMd',
-                                                                            listViewEventsRecord.eventTime!,
-                                                                            locale:
-                                                                                FFLocalizations.of(context).languageCode,
-                                                                          ),
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        )),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
+                                                                            8.0,
+                                                                            0.0),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              4.0),
+                                                                          child: SelectionArea(
+                                                                              child: Text(
+                                                                            listViewEventsRecord.eventName,
+                                                                            style:
+                                                                                FlutterFlowTheme.of(context).bodyMedium,
+                                                                          )),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              4.0),
+                                                                          child: SelectionArea(
+                                                                              child: Text(
+                                                                            dateTimeFormat(
+                                                                              'yMMMd',
+                                                                              listViewEventsRecord.eventTime!,
+                                                                              locale: FFLocalizations.of(context).languageCode,
+                                                                            ),
+                                                                            style:
+                                                                                FlutterFlowTheme.of(context).bodyMedium,
+                                                                          )),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Icon(
-                                                            Icons
-                                                                .arrow_forward_rounded,
-                                                            color: Colors.black,
-                                                            size: 24.0,
-                                                          ),
-                                                        ],
+                                                            Icon(
+                                                              Icons
+                                                                  .arrow_forward_rounded,
+                                                              color:
+                                                                  Colors.black,
+                                                              size: 24.0,
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),

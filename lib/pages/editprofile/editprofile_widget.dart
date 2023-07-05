@@ -23,7 +23,6 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
   late EditprofileModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
@@ -34,13 +33,13 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
         TextEditingController(text: currentUserEmail);
     _model.textController2 ??=
         TextEditingController(text: currentUserDisplayName);
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -53,20 +52,23 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 50.0,
-              height: 50.0,
-              child: SpinKitRipple(
-                color: FlutterFlowTheme.of(context).primary,
-                size: 50.0,
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: SizedBox(
+                width: 50.0,
+                height: 50.0,
+                child: SpinKitRipple(
+                  color: FlutterFlowTheme.of(context).primary,
+                  size: 50.0,
+                ),
               ),
             ),
           );
         }
         final editprofileGuestsRecord = snapshot.data!;
         return GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -88,9 +90,9 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                 ),
               ),
               title: Text(
-                'Edit Profile',
+                'EDIT PROFILE',
                 style: FlutterFlowTheme.of(context).titleMedium.override(
-                      fontFamily: 'DM Sans',
+                      fontFamily: 'Kyrilla',
                       useGoogleFonts: GoogleFonts.asMap().containsKey(
                           FlutterFlowTheme.of(context).titleMediumFamily),
                     ),
@@ -148,13 +150,12 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                 backgroundColor: Colors.transparent,
                                 barrierColor: Color(0xCB000000),
                                 context: context,
-                                builder: (bottomSheetContext) {
+                                builder: (context) {
                                   return GestureDetector(
                                     onTap: () => FocusScope.of(context)
-                                        .requestFocus(_unfocusNode),
+                                        .requestFocus(_model.unfocusNode),
                                     child: Padding(
-                                      padding: MediaQuery.of(bottomSheetContext)
-                                          .viewInsets,
+                                      padding: MediaQuery.viewInsetsOf(context),
                                       child: Container(
                                         height: 450.0,
                                         child: ChangePhotoWidget(),
@@ -164,9 +165,9 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                 },
                               ).then((value) => setState(() {}));
                             },
-                            text: 'Change Photo',
+                            text: 'CHANGE PHOTO',
                             options: FFButtonOptions(
-                              width: 130.0,
+                              width: 205.0,
                               height: 40.0,
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
@@ -176,7 +177,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                    fontFamily: 'DM Sans',
+                                    fontFamily: 'Kyrilla',
                                     useGoogleFonts: GoogleFonts.asMap()
                                         .containsKey(
                                             FlutterFlowTheme.of(context)
@@ -207,7 +208,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                               controller: _model.emailAddressController,
                               obscureText: false,
                               decoration: InputDecoration(
-                                labelText: 'Email Address',
+                                labelText: 'EMAIL ADDRESS',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
@@ -269,7 +270,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
                                   .override(
-                                    fontFamily: 'DM Sans',
+                                    fontFamily: 'Kyrilla',
                                     useGoogleFonts: GoogleFonts.asMap()
                                         .containsKey(
                                             FlutterFlowTheme.of(context)
@@ -287,7 +288,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                 controller: _model.textController2,
                                 obscureText: false,
                                 decoration: InputDecoration(
-                                  labelText: 'Display Name',
+                                  labelText: 'DISPLAY NAME',
                                   labelStyle: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -350,7 +351,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .titleMedium
                                     .override(
-                                      fontFamily: 'DM Sans',
+                                      fontFamily: 'Kyrilla',
                                       useGoogleFonts: GoogleFonts.asMap()
                                           .containsKey(
                                               FlutterFlowTheme.of(context)
@@ -371,17 +372,16 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            final guestsUpdateData = createGuestsRecordData(
+                            await currentUserReference!
+                                .update(createGuestsRecordData(
                               displayName: _model.textController2.text,
                               email: _model.emailAddressController.text,
                               photoUrl: editprofileGuestsRecord.photoUrl,
                               guestName: '',
-                            );
-                            await currentUserReference!
-                                .update(guestsUpdateData);
+                            ));
                             context.pop();
                           },
-                          text: 'Save Changes',
+                          text: 'SAVE CHANGES',
                           options: FFButtonOptions(
                             width: 340.0,
                             height: 60.0,

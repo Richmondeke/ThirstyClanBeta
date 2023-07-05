@@ -7,14 +7,16 @@ import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'lat_lng.dart';
 import 'place.dart';
+import 'uploaded_file.dart';
 import '/backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/auth/firebase_auth/auth_util.dart';
 
 String numLovesStr(SocialPostsRecord? post) {
   final numLikes = math.max(post!.numLikes, 0);
-  // return '$numLikes love' + $numLikes == 1 ? ''; : 's';
-  return "";
+  final hasS = numLikes <= 1 ? '' : 's';
+
+  return '$numLikes love' + hasS;
 }
 
 String numCommentsStr(SocialPostsRecord? post) {
@@ -43,15 +45,6 @@ int cartTotall(List<int> amount) {
     totalAmount += amount[i];
   }
   return totalAmount;
-}
-
-int cartTotalCopy(List<int> list) {
-  // find sum of list
-  int total = 0;
-  for (int item in list) {
-    total += item;
-  }
-  return total;
 }
 
 double? multiply(
@@ -137,4 +130,46 @@ dynamic extracJson(ProductsRecord prodtsuc) {
     'productsDesc': prodtsuc.productsDesc,
     'price': prodtsuc.price,
   };
+}
+
+bool isSuccessful(String data) {
+  Map<String, dynamic> parsedData = jsonDecode(data);
+
+  if (parsedData['status'] == true) {
+    return true;
+  }
+  return false;
+}
+
+double calculateTotalCart(
+  List<ProductsRecord> items,
+  List<CartRecord> cart,
+) {
+  double totalAmount = 0.0;
+
+  for (var item in cart) {
+    final reference = item.productref;
+    final quantity = item.quantity;
+
+    for (var product in items) {
+      if (product.reference == reference) {
+        totalAmount += (product.price * quantity);
+      }
+    }
+  }
+
+  return totalAmount;
+}
+
+List<DocumentReference>? getCartItems(List<DocumentReference> cart) {
+  return cart;
+}
+
+dynamic convertstringtoJSON(String stringValue) {
+  // convert string to JSON
+  try {
+    return jsonDecode(stringValue);
+  } catch (e) {
+    return {"e": e};
+  }
 }

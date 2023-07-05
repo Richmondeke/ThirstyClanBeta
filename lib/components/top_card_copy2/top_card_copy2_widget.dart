@@ -33,6 +33,8 @@ class _TopCardCopy2WidgetState extends State<TopCardCopy2Widget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TopCardCopy2Model());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

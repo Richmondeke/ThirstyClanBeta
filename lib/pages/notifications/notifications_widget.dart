@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -19,19 +20,19 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
   late NotificationsModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => NotificationsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -40,7 +41,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -51,7 +52,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 1.0,
+                  width: MediaQuery.sizeOf(context).width * 1.0,
                   height: 120.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryBackground,
@@ -126,10 +127,10 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                                 indicatorWeight: 5.0,
                                 tabs: [
                                   Tab(
-                                    text: 'Notifications',
+                                    text: 'NOTIFICATIONS',
                                   ),
                                   Tab(
-                                    text: 'Orders',
+                                    text: 'ORDERS',
                                   ),
                                 ],
                               ),
@@ -303,8 +304,9 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                                       child: StreamBuilder<List<CartRecord>>(
                                         stream: queryCartRecord(
                                           queryBuilder: (cartRecord) =>
-                                              cartRecord.whereNotIn(
-                                                  'status', ['cartmode']),
+                                              cartRecord.where('user',
+                                                  isEqualTo:
+                                                      currentUserReference),
                                         ),
                                         builder: (context, snapshot) {
                                           // Customize what your widget looks like when it's loading.
@@ -363,12 +365,42 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                                                           MainAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Image.network(
-                                                          listViewCartRecord
-                                                              .image,
-                                                          width: 64.0,
-                                                          height: 64.0,
-                                                          fit: BoxFit.cover,
+                                                        StreamBuilder<
+                                                            ProductsRecord>(
+                                                          stream: ProductsRecord
+                                                              .getDocument(
+                                                                  listViewCartRecord
+                                                                      .productref!),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            // Customize what your widget looks like when it's loading.
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return Center(
+                                                                child: SizedBox(
+                                                                  width: 50.0,
+                                                                  height: 50.0,
+                                                                  child:
+                                                                      SpinKitRipple(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primary,
+                                                                    size: 50.0,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                            final imageProductsRecord =
+                                                                snapshot.data!;
+                                                            return Image
+                                                                .network(
+                                                              imageProductsRecord
+                                                                  .productImage,
+                                                              width: 64.0,
+                                                              height: 64.0,
+                                                              fit: BoxFit.cover,
+                                                            );
+                                                          },
                                                         ),
                                                         Expanded(
                                                           child: Padding(
@@ -397,21 +429,50 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                                                                           0.0,
                                                                           0.0,
                                                                           4.0),
-                                                                  child:
-                                                                      SelectionArea(
+                                                                  child: StreamBuilder<
+                                                                      ProductsRecord>(
+                                                                    stream: ProductsRecord.getDocument(
+                                                                        listViewCartRecord
+                                                                            .productref!),
+                                                                    builder:
+                                                                        (context,
+                                                                            snapshot) {
+                                                                      // Customize what your widget looks like when it's loading.
+                                                                      if (!snapshot
+                                                                          .hasData) {
+                                                                        return Center(
+                                                                          child:
+                                                                              SizedBox(
+                                                                            width:
+                                                                                50.0,
+                                                                            height:
+                                                                                50.0,
+                                                                            child:
+                                                                                SpinKitRipple(
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              size: 50.0,
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                      final textProductsRecord =
+                                                                          snapshot
+                                                                              .data!;
+                                                                      return SelectionArea(
                                                                           child:
                                                                               Text(
-                                                                    listViewCartRecord
-                                                                        .product,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium,
-                                                                  )),
+                                                                        textProductsRecord
+                                                                            .productName,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium,
+                                                                      ));
+                                                                    },
+                                                                  ),
                                                                 ),
                                                                 SelectionArea(
                                                                     child: Text(
                                                                   listViewCartRecord
-                                                                      .amount
+                                                                      .quantity
                                                                       .toString(),
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
@@ -436,7 +497,10 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                                                                       SelectionArea(
                                                                           child:
                                                                               Text(
-                                                                    'Current Status: ${listViewCartRecord.status}',
+                                                                    listViewCartRecord.isDelivered ==
+                                                                            false
+                                                                        ? 'Pending'
+                                                                        : 'Delivered',
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
                                                                         .bodyMedium
