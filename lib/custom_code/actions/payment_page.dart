@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'dart:convert';
 import 'package:flutter_paystack/flutter_paystack.dart';
 
-Future<String> paymentPage(BuildContext context, int amount) async {
+Future<dynamic> paymentPage(
+    BuildContext context, int? amount, String emailAddress) async {
   final plugin = PaystackPlugin();
   var publicKey = 'pk_test_acba5ab9216a5102397ad7762cbb5187f1d76d73';
 
@@ -21,8 +23,8 @@ Future<String> paymentPage(BuildContext context, int amount) async {
   }
 
   Charge charge = Charge()
-    ..amount = amount // Amount in kobo
-    ..email = 'codewithdripzy@gmail.com'
+    ..amount = amount ?? 100000 // Amount in kobo
+    ..email = emailAddress
     ..reference = _getReference();
 
   try {
@@ -35,20 +37,23 @@ Future<String> paymentPage(BuildContext context, int amount) async {
           'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/thirsty-xm9o5s/assets/3ef0znmtm7ka/App%20Icon%20-%20iOS%20(Masked).png',
           width: 50.0),
     );
-    String res = jsonEncode({
-      "account": response.account,
-      "card": response.card,
+
+    Map<String, dynamic> res = {
       "message": response.message,
       "status": response.status,
-      "method": response.method,
-      "reference": response.reference,
       "verify": response.verify
-    });
+    };
+
+    print("Success!!!");
 
     return res;
   } catch (e) {
-    print('Payment error: $e');
-    String res = jsonEncode({"status": false, "message": e});
+    Map<String, dynamic> res = {
+      "status": false,
+      "message": "Something Went wrong !"
+    };
+
+    print(e);
 
     return res;
   }

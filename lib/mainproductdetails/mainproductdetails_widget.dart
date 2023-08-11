@@ -551,6 +551,7 @@ class _MainproductdetailsWidgetState extends State<MainproductdetailsWidget> {
                       productref: widget.productId,
                       user: currentUserReference,
                       isDelivered: false,
+                      isPaid: false,
                     ));
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

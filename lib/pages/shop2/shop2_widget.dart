@@ -18,7 +18,8 @@ class Shop2Widget extends StatefulWidget {
   _Shop2WidgetState createState() => _Shop2WidgetState();
 }
 
-class _Shop2WidgetState extends State<Shop2Widget> {
+class _Shop2WidgetState extends State<Shop2Widget>
+    with TickerProviderStateMixin {
   late Shop2Model _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -28,6 +29,11 @@ class _Shop2WidgetState extends State<Shop2Widget> {
     super.initState();
     _model = createModel(context, () => Shop2Model());
 
+    _model.tabBarController = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: 0,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -261,427 +267,415 @@ class _Shop2WidgetState extends State<Shop2Widget> {
             Expanded(
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
-                child: DefaultTabController(
-                  length: 3,
-                  initialIndex: 0,
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment(0.0, 0),
-                        child: TabBar(
-                          labelColor: FlutterFlowTheme.of(context).primary,
-                          unselectedLabelColor:
-                              FlutterFlowTheme.of(context).secondaryText,
-                          labelStyle: FlutterFlowTheme.of(context).titleMedium,
-                          indicatorColor: FlutterFlowTheme.of(context).primary,
-                          tabs: [
-                            Tab(
-                              text: 'JACKETS',
-                            ),
-                            Tab(
-                              text: 'SHIRTS',
-                            ),
-                            Tab(
-                              text: 'PANTS',
-                            ),
-                          ],
-                        ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment(0.0, 0),
+                      child: TabBar(
+                        labelColor: FlutterFlowTheme.of(context).primary,
+                        unselectedLabelColor:
+                            FlutterFlowTheme.of(context).secondaryText,
+                        labelStyle: FlutterFlowTheme.of(context).titleMedium,
+                        unselectedLabelStyle: TextStyle(),
+                        indicatorColor: FlutterFlowTheme.of(context).primary,
+                        tabs: [
+                          Tab(
+                            text: 'JACKETS',
+                          ),
+                          Tab(
+                            text: 'SHIRTS',
+                          ),
+                          Tab(
+                            text: 'PANTS',
+                          ),
+                        ],
+                        controller: _model.tabBarController,
+                        onTap: (value) => setState(() {}),
                       ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 24.0, 0.0, 0.0),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    StreamBuilder<List<ProductsRecord>>(
-                                      stream: queryProductsRecord(),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              child: SpinKitRipple(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 50.0,
-                                              ),
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _model.tabBarController,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 24.0, 0.0, 0.0),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  StreamBuilder<List<ProductsRecord>>(
+                                    stream: queryProductsRecord(),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            child: SpinKitRipple(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              size: 50.0,
                                             ),
-                                          );
-                                        }
-                                        List<ProductsRecord>
-                                            listViewProductsRecordList =
-                                            snapshot.data!;
-                                        return ListView.builder(
-                                          padding: EdgeInsets.zero,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount:
-                                              listViewProductsRecordList.length,
-                                          itemBuilder:
-                                              (context, listViewIndex) {
-                                            final listViewProductsRecord =
-                                                listViewProductsRecordList[
-                                                    listViewIndex];
-                                            return Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      16.0, 8.0, 16.0, 0.0),
-                                              child: InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () async {
-                                                  context.pushNamed(
-                                                    'Mainproductdetails',
-                                                    queryParameters: {
-                                                      'productId':
-                                                          serializeParam(
-                                                        listViewProductsRecord
-                                                            .reference,
-                                                        ParamType
-                                                            .DocumentReference,
-                                                      ),
-                                                    }.withoutNulls,
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(8.0, 8.0,
-                                                                12.0, 8.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                          child: Image.network(
-                                                            listViewProductsRecord
-                                                                .productImage,
-                                                            width: 70.0,
-                                                            height: 70.0,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          child: Text(
-                                                            listViewProductsRecord
-                                                                .productName,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .titleMedium,
-                                                          ),
-                                                        ),
-                                                      ],
+                                          ),
+                                        );
+                                      }
+                                      List<ProductsRecord>
+                                          listViewProductsRecordList =
+                                          snapshot.data!;
+                                      return ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount:
+                                            listViewProductsRecordList.length,
+                                        itemBuilder: (context, listViewIndex) {
+                                          final listViewProductsRecord =
+                                              listViewProductsRecordList[
+                                                  listViewIndex];
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16.0, 8.0, 16.0, 0.0),
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                context.pushNamed(
+                                                  'Mainproductdetails',
+                                                  queryParameters: {
+                                                    'productId': serializeParam(
+                                                      listViewProductsRecord
+                                                          .reference,
+                                                      ParamType
+                                                          .DocumentReference,
                                                     ),
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          8.0, 8.0, 12.0, 8.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.network(
+                                                          listViewProductsRecord
+                                                              .productImage,
+                                                          width: 70.0,
+                                                          height: 70.0,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          listViewProductsRecord
+                                                              .productName,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .titleMedium,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                            );
-                                          },
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 24.0, 0.0, 0.0),
+                                  child: StreamBuilder<List<ProductsRecord>>(
+                                    stream: queryProductsRecord(),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            child: SpinKitRipple(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              size: 50.0,
+                                            ),
+                                          ),
                                         );
-                                      },
-                                    ),
-                                  ],
+                                      }
+                                      List<ProductsRecord>
+                                          listViewProductsRecordList =
+                                          snapshot.data!;
+                                      return ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount:
+                                            listViewProductsRecordList.length,
+                                        itemBuilder: (context, listViewIndex) {
+                                          final listViewProductsRecord =
+                                              listViewProductsRecordList[
+                                                  listViewIndex];
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16.0, 8.0, 16.0, 0.0),
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                context.pushNamed(
+                                                  'Mainproductdetails',
+                                                  queryParameters: {
+                                                    'productId': serializeParam(
+                                                      listViewProductsRecord
+                                                          .reference,
+                                                      ParamType
+                                                          .DocumentReference,
+                                                    ),
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          8.0, 8.0, 12.0, 8.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.network(
+                                                          listViewProductsRecord
+                                                              .productImage,
+                                                          width: 70.0,
+                                                          height: 70.0,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          listViewProductsRecord
+                                                              .productName,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .titleMedium,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 24.0, 0.0, 0.0),
-                                    child: StreamBuilder<List<ProductsRecord>>(
-                                      stream: queryProductsRecord(),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              child: SpinKitRipple(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 50.0,
-                                              ),
+                          ),
+                          SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 24.0, 0.0, 0.0),
+                                  child: StreamBuilder<List<ProductsRecord>>(
+                                    stream: queryProductsRecord(),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            child: SpinKitRipple(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              size: 50.0,
                                             ),
-                                          );
-                                        }
-                                        List<ProductsRecord>
-                                            listViewProductsRecordList =
-                                            snapshot.data!;
-                                        return ListView.builder(
-                                          padding: EdgeInsets.zero,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount:
-                                              listViewProductsRecordList.length,
-                                          itemBuilder:
-                                              (context, listViewIndex) {
-                                            final listViewProductsRecord =
-                                                listViewProductsRecordList[
-                                                    listViewIndex];
-                                            return Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      16.0, 8.0, 16.0, 0.0),
-                                              child: InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () async {
-                                                  context.pushNamed(
-                                                    'Mainproductdetails',
-                                                    queryParameters: {
-                                                      'productId':
-                                                          serializeParam(
-                                                        listViewProductsRecord
-                                                            .reference,
-                                                        ParamType
-                                                            .DocumentReference,
-                                                      ),
-                                                    }.withoutNulls,
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(8.0, 8.0,
-                                                                12.0, 8.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                          child: Image.network(
-                                                            listViewProductsRecord
-                                                                .productImage,
-                                                            width: 70.0,
-                                                            height: 70.0,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          child: Text(
-                                                            listViewProductsRecord
-                                                                .productName,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .titleMedium,
-                                                          ),
-                                                        ),
-                                                      ],
+                                          ),
+                                        );
+                                      }
+                                      List<ProductsRecord>
+                                          listViewProductsRecordList =
+                                          snapshot.data!;
+                                      return ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount:
+                                            listViewProductsRecordList.length,
+                                        itemBuilder: (context, listViewIndex) {
+                                          final listViewProductsRecord =
+                                              listViewProductsRecordList[
+                                                  listViewIndex];
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16.0, 8.0, 16.0, 0.0),
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                context.pushNamed(
+                                                  'Mainproductdetails',
+                                                  queryParameters: {
+                                                    'productId': serializeParam(
+                                                      listViewProductsRecord
+                                                          .reference,
+                                                      ParamType
+                                                          .DocumentReference,
                                                     ),
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          8.0, 8.0, 12.0, 8.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.network(
+                                                          listViewProductsRecord
+                                                              .productImage,
+                                                          width: 70.0,
+                                                          height: 70.0,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          listViewProductsRecord
+                                                              .productName,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .titleMedium,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 24.0, 0.0, 0.0),
-                                    child: StreamBuilder<List<ProductsRecord>>(
-                                      stream: queryProductsRecord(),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              child: SpinKitRipple(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 50.0,
-                                              ),
                                             ),
                                           );
-                                        }
-                                        List<ProductsRecord>
-                                            listViewProductsRecordList =
-                                            snapshot.data!;
-                                        return ListView.builder(
-                                          padding: EdgeInsets.zero,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount:
-                                              listViewProductsRecordList.length,
-                                          itemBuilder:
-                                              (context, listViewIndex) {
-                                            final listViewProductsRecord =
-                                                listViewProductsRecordList[
-                                                    listViewIndex];
-                                            return Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      16.0, 8.0, 16.0, 0.0),
-                                              child: InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () async {
-                                                  context.pushNamed(
-                                                    'Mainproductdetails',
-                                                    queryParameters: {
-                                                      'productId':
-                                                          serializeParam(
-                                                        listViewProductsRecord
-                                                            .reference,
-                                                        ParamType
-                                                            .DocumentReference,
-                                                      ),
-                                                    }.withoutNulls,
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(8.0, 8.0,
-                                                                12.0, 8.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                          child: Image.network(
-                                                            listViewProductsRecord
-                                                                .productImage,
-                                                            width: 70.0,
-                                                            height: 70.0,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          child: Text(
-                                                            listViewProductsRecord
-                                                                .productName,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .titleMedium,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
+                                        },
+                                      );
+                                    },
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

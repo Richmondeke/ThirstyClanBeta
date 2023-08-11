@@ -237,8 +237,8 @@ class _TicketdetailsWidgetState extends State<TicketdetailsWidget>
                               thickness: 1.0,
                               color: FlutterFlowTheme.of(context).alternate,
                             ),
-                            if (widget.events!.eventvideo != null &&
-                                widget.events!.eventvideo != '')
+                            if (widget.events?.eventvideo != null &&
+                                widget.events?.eventvideo != '')
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 16.0),
@@ -312,7 +312,7 @@ class _TicketdetailsWidgetState extends State<TicketdetailsWidget>
                         ),
                       ),
                     ),
-                    if (widget.events!.registered == true)
+                    if (widget.events?.registered == true)
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
                             0.0, 260.0, 0.0, 0.0),
@@ -439,6 +439,14 @@ class _TicketdetailsWidgetState extends State<TicketdetailsWidget>
                                                                       50.0),
                                                           child:
                                                               CachedNetworkImage(
+                                                            fadeInDuration:
+                                                                Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                            fadeOutDuration:
+                                                                Duration(
+                                                                    milliseconds:
+                                                                        500),
                                                             imageUrl:
                                                                 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/teams/GzvajSxrHvi1zwJQsfLk/assets/4y6teyknf8fe/@3xlogoMark_outline.png',
                                                             width: 40.0,

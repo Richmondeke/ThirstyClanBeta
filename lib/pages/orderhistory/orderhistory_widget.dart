@@ -96,11 +96,11 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
       onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).warning,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
           child: AppBar(
-            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+            backgroundColor: FlutterFlowTheme.of(context).warning,
             automaticallyImplyLeading: false,
             leading: FlutterFlowIconButton(
               borderColor: Colors.transparent,
@@ -159,7 +159,13 @@ class _OrderhistoryWidgetState extends State<OrderhistoryWidget>
                   padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
                   child: Text(
                     'YOUR ORDERS',
-                    style: FlutterFlowTheme.of(context).bodySmall,
+                    style: FlutterFlowTheme.of(context).bodySmall.override(
+                          fontFamily:
+                              FlutterFlowTheme.of(context).bodySmallFamily,
+                          color: FlutterFlowTheme.of(context).primaryText,
+                          useGoogleFonts: GoogleFonts.asMap().containsKey(
+                              FlutterFlowTheme.of(context).bodySmallFamily),
+                        ),
                   ).animateOnPageLoad(
                       animationsMap['textOnPageLoadAnimation']!),
                 ),

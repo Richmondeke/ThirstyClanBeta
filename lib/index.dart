@@ -71,10 +71,9 @@ export '/pages/onboarding_screens/onboarding_screens_widget.dart'
     show OnboardingScreensWidget;
 export '/pages/oldscz/searchproucts_copy/searchproucts_copy_widget.dart'
     show SearchprouctsCopyWidget;
-export '/pages/oldscz/cart/cart_widget.dart' show CartWidget;
+export '/pages/cart/cart_widget.dart' show CartWidget;
 export '/pages/shop_neew/shop_neew_widget.dart' show ShopNeewWidget;
 export '/pages/oldscz/menu/menu_widget.dart' show MenuWidget;
-export '/pages/success_copy/success_copy_widget.dart' show SuccessCopyWidget;
 export '/pages/successnot/successnot_widget.dart' show SuccessnotWidget;
 export '/tickets/tickets_widget.dart' show TicketsWidget;
 export '/mainproductdetails/mainproductdetails_widget.dart'
@@ -82,3 +81,5 @@ export '/mainproductdetails/mainproductdetails_widget.dart'
 export '/home15_store/home15_store_widget.dart' show Home15StoreWidget;
 export '/ticketdetails/ticketdetails_widget.dart' show TicketdetailsWidget;
 export '/ticket/ticket_widget.dart' show TicketWidget;
+export '/successdemo/successdemo_widget.dart' show SuccessdemoWidget;
+export '/successnotdemo/successnotdemo_widget.dart' show SuccessnotdemoWidget;

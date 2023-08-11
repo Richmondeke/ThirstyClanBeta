@@ -135,10 +135,7 @@ dynamic extracJson(ProductsRecord prodtsuc) {
 bool isSuccessful(String data) {
   Map<String, dynamic> parsedData = jsonDecode(data);
 
-  if (parsedData['status'] == true) {
-    return true;
-  }
-  return false;
+  return parsedData["status"] == true;
 }
 
 double calculateTotalCart(
@@ -165,11 +162,10 @@ List<DocumentReference>? getCartItems(List<DocumentReference> cart) {
   return cart;
 }
 
-dynamic convertstringtoJSON(String stringValue) {
-  // convert string to JSON
+dynamic convertStringToJSON(String value) {
   try {
-    return jsonDecode(stringValue);
+    return jsonDecode(value);
   } catch (e) {
-    return {"e": e};
+    return {"status": false, "e": e};
   }
 }

@@ -37,10 +37,10 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>thirsty</string>
+        <string>home</string>
         <key>CFBundleURLSchemes</key>
         <array>
-        <string>com.flutterflow.thirsty</string>
+        <string>thirsty</string>
         </array>
         </dict>
     </array>

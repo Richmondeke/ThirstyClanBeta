@@ -16,11 +16,13 @@ class SuccessnotWidget extends StatefulWidget {
     this.amount,
     this.txnreference,
     this.status,
+    required this.data,
   }) : super(key: key);
 
   final String? amount;
   final String? txnreference;
   final String? status;
+  final dynamic data;
 
   @override
   _SuccessnotWidgetState createState() => _SuccessnotWidgetState();

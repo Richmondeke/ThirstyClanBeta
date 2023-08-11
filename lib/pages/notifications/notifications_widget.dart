@@ -16,7 +16,8 @@ class NotificationsWidget extends StatefulWidget {
   _NotificationsWidgetState createState() => _NotificationsWidgetState();
 }
 
-class _NotificationsWidgetState extends State<NotificationsWidget> {
+class _NotificationsWidgetState extends State<NotificationsWidget>
+    with TickerProviderStateMixin {
   late NotificationsModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -26,6 +27,11 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
     super.initState();
     _model = createModel(context, () => NotificationsModel());
 
+    _model.tabBarController = TabController(
+      vsync: this,
+      length: 2,
+      initialIndex: 0,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -100,380 +106,416 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
-                      child: DefaultTabController(
-                        length: 2,
-                        initialIndex: 0,
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment(0.0, 0),
-                              child: TabBar(
-                                isScrollable: true,
-                                labelColor: Colors.black,
-                                unselectedLabelColor: Color(0xFF6A6A6A),
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .titleSmallFamily,
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.w500,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmallFamily),
-                                    ),
-                                indicatorColor: Colors.black,
-                                indicatorWeight: 5.0,
-                                tabs: [
-                                  Tab(
-                                    text: 'NOTIFICATIONS',
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment(0.0, 0),
+                            child: TabBar(
+                              isScrollable: true,
+                              labelColor: Colors.black,
+                              unselectedLabelColor: Color(0xFF6A6A6A),
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .titleSmallFamily,
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.w500,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .titleSmallFamily),
                                   ),
-                                  Tab(
-                                    text: 'ORDERS',
-                                  ),
-                                ],
-                              ),
+                              unselectedLabelStyle: TextStyle(),
+                              indicatorColor: Colors.black,
+                              indicatorWeight: 5.0,
+                              tabs: [
+                                Tab(
+                                  text: 'NOTIFICATIONS',
+                                ),
+                                Tab(
+                                  text: 'ORDERS',
+                                ),
+                              ],
+                              controller: _model.tabBarController,
+                              onTap: (value) => setState(() {}),
                             ),
-                            Expanded(
-                              child: TabBarView(
-                                children: [
-                                  Container(
-                                    width: 100.0,
-                                    height: 240.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 24.0, 0.0, 0.0),
-                                      child: StreamBuilder<
-                                          List<NotificationsRecord>>(
-                                        stream: queryNotificationsRecord(),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 50.0,
-                                                height: 50.0,
-                                                child: SpinKitRipple(
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              controller: _model.tabBarController,
+                              children: [
+                                Container(
+                                  width: 100.0,
+                                  height: 240.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 24.0, 0.0, 0.0),
+                                    child: StreamBuilder<
+                                        List<NotificationsRecord>>(
+                                      stream: queryNotificationsRecord(),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50.0,
+                                              height: 50.0,
+                                              child: SpinKitRipple(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                size: 50.0,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        List<NotificationsRecord>
+                                            listViewNotificationsRecordList =
+                                            snapshot.data!;
+                                        return ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount:
+                                              listViewNotificationsRecordList
+                                                  .length,
+                                          itemBuilder:
+                                              (context, listViewIndex) {
+                                            final listViewNotificationsRecord =
+                                                listViewNotificationsRecordList[
+                                                    listViewIndex];
+                                            return Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      24.0, 8.0, 24.0, 8.0),
+                                              child: Container(
+                                                width: 324.0,
+                                                height: 100.0,
+                                                decoration: BoxDecoration(
                                                   color: FlutterFlowTheme.of(
                                                           context)
-                                                      .primary,
-                                                  size: 50.0,
+                                                      .secondaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
                                                 ),
-                                              ),
-                                            );
-                                          }
-                                          List<NotificationsRecord>
-                                              listViewNotificationsRecordList =
-                                              snapshot.data!;
-                                          return ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemCount:
-                                                listViewNotificationsRecordList
-                                                    .length,
-                                            itemBuilder:
-                                                (context, listViewIndex) {
-                                              final listViewNotificationsRecord =
-                                                  listViewNotificationsRecordList[
-                                                      listViewIndex];
-                                              return Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        24.0, 8.0, 24.0, 8.0),
-                                                child: Container(
-                                                  width: 324.0,
-                                                  height: 100.0,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(12.0, 4.0,
-                                                                12.0, 4.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Image.network(
-                                                          listViewNotificationsRecord
-                                                              .image,
-                                                          width: 64.0,
-                                                          height: 64.0,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        12.0,
-                                                                        0.0,
-                                                                        8.0,
-                                                                        0.0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          4.0),
-                                                                  child:
-                                                                      SelectionArea(
-                                                                          child:
-                                                                              Text(
-                                                                    listViewNotificationsRecord
-                                                                        .title,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium,
-                                                                  )),
-                                                                ),
-                                                                SelectionArea(
-                                                                    child: Text(
-                                                                  dateTimeFormat(
-                                                                    'relative',
-                                                                    listViewNotificationsRecord
-                                                                        .timeposted!,
-                                                                    locale: FFLocalizations.of(
-                                                                            context)
-                                                                        .languageCode,
-                                                                  ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          12.0, 4.0, 12.0, 4.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Image.network(
+                                                        listViewNotificationsRecord
+                                                            .image,
+                                                        width: 64.0,
+                                                        height: 64.0,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      12.0,
+                                                                      0.0,
+                                                                      8.0,
+                                                                      0.0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            4.0),
+                                                                child:
+                                                                    SelectionArea(
+                                                                        child:
+                                                                            Text(
+                                                                  listViewNotificationsRecord
+                                                                      .title,
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                        fontSize:
-                                                                            12.0,
-                                                                        useGoogleFonts:
-                                                                            GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyMediumFamily),
-                                                                      ),
+                                                                      .bodyMedium,
                                                                 )),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                              SelectionArea(
+                                                                  child: Text(
+                                                                dateTimeFormat(
+                                                                  'relative',
+                                                                  listViewNotificationsRecord
+                                                                      .timeposted!,
+                                                                  locale: FFLocalizations.of(
+                                                                          context)
+                                                                      .languageCode,
+                                                                ),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyMediumFamily,
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      useGoogleFonts: GoogleFonts
+                                                                              .asMap()
+                                                                          .containsKey(
+                                                                              FlutterFlowTheme.of(context).bodyMediumFamily),
+                                                                    ),
+                                                              )),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 100.0,
-                                    height: 400.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 24.0, 0.0, 0.0),
-                                      child: StreamBuilder<List<CartRecord>>(
-                                        stream: queryCartRecord(
-                                          queryBuilder: (cartRecord) =>
-                                              cartRecord.where('user',
-                                                  isEqualTo:
-                                                      currentUserReference),
-                                        ),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 50.0,
-                                                height: 50.0,
-                                                child: SpinKitRipple(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  size: 50.0,
                                                 ),
                                               ),
                                             );
-                                          }
-                                          List<CartRecord>
-                                              listViewCartRecordList =
-                                              snapshot.data!;
-                                          return ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemCount:
-                                                listViewCartRecordList.length,
-                                            itemBuilder:
-                                                (context, listViewIndex) {
-                                              final listViewCartRecord =
-                                                  listViewCartRecordList[
-                                                      listViewIndex];
-                                              return Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        24.0, 8.0, 24.0, 8.0),
-                                                child: Container(
-                                                  width: 324.0,
-                                                  height: 100.0,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(12.0, 4.0,
-                                                                12.0, 4.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        StreamBuilder<
-                                                            ProductsRecord>(
-                                                          stream: ProductsRecord
-                                                              .getDocument(
-                                                                  listViewCartRecord
-                                                                      .productref!),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Customize what your widget looks like when it's loading.
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Center(
-                                                                child: SizedBox(
-                                                                  width: 50.0,
-                                                                  height: 50.0,
-                                                                  child:
-                                                                      SpinKitRipple(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    size: 50.0,
-                                                                  ),
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 100.0,
+                                  height: 400.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 24.0, 0.0, 0.0),
+                                    child: StreamBuilder<List<CartRecord>>(
+                                      stream: queryCartRecord(
+                                        queryBuilder: (cartRecord) =>
+                                            cartRecord.where('user',
+                                                isEqualTo:
+                                                    currentUserReference),
+                                      ),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50.0,
+                                              height: 50.0,
+                                              child: SpinKitRipple(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                size: 50.0,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        List<CartRecord>
+                                            listViewCartRecordList =
+                                            snapshot.data!;
+                                        return ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount:
+                                              listViewCartRecordList.length,
+                                          itemBuilder:
+                                              (context, listViewIndex) {
+                                            final listViewCartRecord =
+                                                listViewCartRecordList[
+                                                    listViewIndex];
+                                            return Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      24.0, 8.0, 24.0, 8.0),
+                                              child: Container(
+                                                width: 324.0,
+                                                height: 100.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          12.0, 4.0, 12.0, 4.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      StreamBuilder<
+                                                          ProductsRecord>(
+                                                        stream: ProductsRecord
+                                                            .getDocument(
+                                                                listViewCartRecord
+                                                                    .productref!),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Center(
+                                                              child: SizedBox(
+                                                                width: 50.0,
+                                                                height: 50.0,
+                                                                child:
+                                                                    SpinKitRipple(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  size: 50.0,
                                                                 ),
-                                                              );
-                                                            }
-                                                            final imageProductsRecord =
-                                                                snapshot.data!;
-                                                            return Image
-                                                                .network(
-                                                              imageProductsRecord
-                                                                  .productImage,
-                                                              width: 64.0,
-                                                              height: 64.0,
-                                                              fit: BoxFit.cover,
+                                                              ),
                                                             );
-                                                          },
-                                                        ),
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        12.0,
-                                                                        0.0,
-                                                                        8.0,
-                                                                        0.0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          4.0),
-                                                                  child: StreamBuilder<
-                                                                      ProductsRecord>(
-                                                                    stream: ProductsRecord.getDocument(
-                                                                        listViewCartRecord
-                                                                            .productref!),
-                                                                    builder:
-                                                                        (context,
-                                                                            snapshot) {
-                                                                      // Customize what your widget looks like when it's loading.
-                                                                      if (!snapshot
-                                                                          .hasData) {
-                                                                        return Center(
+                                                          }
+                                                          final imageProductsRecord =
+                                                              snapshot.data!;
+                                                          return Image.network(
+                                                            imageProductsRecord
+                                                                .productImage,
+                                                            width: 64.0,
+                                                            height: 64.0,
+                                                            fit: BoxFit.cover,
+                                                          );
+                                                        },
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      12.0,
+                                                                      0.0,
+                                                                      8.0,
+                                                                      0.0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            4.0),
+                                                                child: StreamBuilder<
+                                                                    ProductsRecord>(
+                                                                  stream: ProductsRecord
+                                                                      .getDocument(
+                                                                          listViewCartRecord
+                                                                              .productref!),
+                                                                  builder: (context,
+                                                                      snapshot) {
+                                                                    // Customize what your widget looks like when it's loading.
+                                                                    if (!snapshot
+                                                                        .hasData) {
+                                                                      return Center(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          width:
+                                                                              50.0,
+                                                                          height:
+                                                                              50.0,
                                                                           child:
-                                                                              SizedBox(
-                                                                            width:
+                                                                              SpinKitRipple(
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                            size:
                                                                                 50.0,
-                                                                            height:
-                                                                                50.0,
-                                                                            child:
-                                                                                SpinKitRipple(
-                                                                              color: FlutterFlowTheme.of(context).primary,
-                                                                              size: 50.0,
-                                                                            ),
                                                                           ),
-                                                                        );
-                                                                      }
-                                                                      final textProductsRecord =
-                                                                          snapshot
-                                                                              .data!;
-                                                                      return SelectionArea(
-                                                                          child:
-                                                                              Text(
-                                                                        textProductsRecord
-                                                                            .productName,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ));
-                                                                    },
-                                                                  ),
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                    final textProductsRecord =
+                                                                        snapshot
+                                                                            .data!;
+                                                                    return SelectionArea(
+                                                                        child:
+                                                                            Text(
+                                                                      textProductsRecord
+                                                                          .productName,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium,
+                                                                    ));
+                                                                  },
                                                                 ),
-                                                                SelectionArea(
-                                                                    child: Text(
+                                                              ),
+                                                              SelectionArea(
+                                                                  child: Text(
+                                                                listViewCartRecord
+                                                                    .quantity
+                                                                    .toString(),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyMediumFamily,
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      useGoogleFonts: GoogleFonts
+                                                                              .asMap()
+                                                                          .containsKey(
+                                                                              FlutterFlowTheme.of(context).bodyMediumFamily),
+                                                                    ),
+                                                              )),
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            4.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child:
+                                                                    SelectionArea(
+                                                                        child:
+                                                                            Text(
                                                                   listViewCartRecord
-                                                                      .quantity
-                                                                      .toString(),
+                                                                              .isDelivered ==
+                                                                          false
+                                                                      ? 'Pending'
+                                                                      : 'Delivered',
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
@@ -486,54 +528,26 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                                                                             GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyMediumFamily),
                                                                       ),
                                                                 )),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  child:
-                                                                      SelectionArea(
-                                                                          child:
-                                                                              Text(
-                                                                    listViewCartRecord.isDelivered ==
-                                                                            false
-                                                                        ? 'Pending'
-                                                                        : 'Delivered',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          useGoogleFonts:
-                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyMediumFamily),
-                                                                        ),
-                                                                  )),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

@@ -202,7 +202,8 @@ class PaystackCall {
     final body = '''
 {
   "email": "charles.ejiegbu@gmail.com",
-  "amount": 43000
+  "amount": 43000,
+  "callback_url": "https://wearthirsty-api.vercel.app/api/payment/verify"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'paystack',
@@ -541,16 +542,19 @@ class WebhhookCall {
   }
 }
 
-class VerifyPAystackPaymentCall {
+class VerifyPaystackPaymentCall {
   static Future<ApiCallResponse> call() {
     return ApiManager.instance.makeApiCall(
-      callName: 'Verify PAystack payment',
-      apiUrl: 'https://api.paystack.co/transaction/verify/:reference',
+      callName: 'Verify Paystack payment',
+      apiUrl: 'https://wearthirsty-api.vercel.app/api/payment/verify',
       callType: ApiCallType.GET,
       headers: {
-        'Authorization': 'sk_live_1ca6be9efdbd0b99d369f1d701c0f4953ec7c79a',
+        'Authorization':
+            'Bearer sk_test_efd8b7a09183b6eb0786ebd712f3324ee339eeca',
       },
-      params: {},
+      params: {
+        'ref': "himmpvato9",
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

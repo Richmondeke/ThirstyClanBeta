@@ -410,6 +410,10 @@ class _SearchprouctsCopyWidgetState extends State<SearchprouctsCopyWidget> {
                                         topRight: Radius.circular(8.0),
                                       ),
                                       child: CachedNetworkImage(
+                                        fadeInDuration:
+                                            Duration(milliseconds: 500),
+                                        fadeOutDuration:
+                                            Duration(milliseconds: 500),
                                         imageUrl:
                                             listViewProductsRecord.productImage,
                                         width: double.infinity,

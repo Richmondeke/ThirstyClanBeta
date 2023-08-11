@@ -451,6 +451,10 @@ class _ThirstynsonicsWidgetState extends State<ThirstynsonicsWidget>
                                                       BorderRadius.circular(
                                                           12.0),
                                                   child: CachedNetworkImage(
+                                                    fadeInDuration: Duration(
+                                                        milliseconds: 500),
+                                                    fadeOutDuration: Duration(
+                                                        milliseconds: 500),
                                                     imageUrl:
                                                         listViewArtisteRecord
                                                             .artisteimage,

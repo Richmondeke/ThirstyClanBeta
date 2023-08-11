@@ -36,11 +36,6 @@ class OrderRecord extends FirestoreRecord {
   List<DocumentReference> get cartitems => _cartitems ?? const [];
   bool hasCartitems() => _cartitems != null;
 
-  // "isDelivered" field.
-  List<bool>? _isDelivered;
-  List<bool> get isDelivered => _isDelivered ?? const [];
-  bool hasIsDelivered() => _isDelivered != null;
-
   // "created" field.
   DateTime? _created;
   DateTime? get created => _created;
@@ -56,7 +51,6 @@ class OrderRecord extends FirestoreRecord {
     _txref = snapshotData['txref'] as String?;
     _transactionid = snapshotData['transactionid'] as String?;
     _cartitems = getDataList(snapshotData['cartitems']);
-    _isDelivered = getDataList(snapshotData['isDelivered']);
     _created = snapshotData['created'] as DateTime?;
     _amount = castToType<double>(snapshotData['amount']);
   }
@@ -124,7 +118,6 @@ class OrderRecordDocumentEquality implements Equality<OrderRecord> {
         e1?.txref == e2?.txref &&
         e1?.transactionid == e2?.transactionid &&
         listEquality.equals(e1?.cartitems, e2?.cartitems) &&
-        listEquality.equals(e1?.isDelivered, e2?.isDelivered) &&
         e1?.created == e2?.created &&
         e1?.amount == e2?.amount;
   }
@@ -135,7 +128,6 @@ class OrderRecordDocumentEquality implements Equality<OrderRecord> {
         e?.txref,
         e?.transactionid,
         e?.cartitems,
-        e?.isDelivered,
         e?.created,
         e?.amount
       ]);

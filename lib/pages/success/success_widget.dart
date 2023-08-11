@@ -1,8 +1,13 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -12,14 +17,10 @@ export 'success_model.dart';
 class SuccessWidget extends StatefulWidget {
   const SuccessWidget({
     Key? key,
-    this.amount,
-    this.txnreference,
-    this.status,
+    required this.data,
   }) : super(key: key);
 
-  final String? amount;
-  final String? txnreference;
-  final String? status;
+  final dynamic data;
 
   @override
   _SuccessWidgetState createState() => _SuccessWidgetState();
@@ -34,6 +35,75 @@ class _SuccessWidgetState extends State<SuccessWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SuccessModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            widget.data!.toString(),
+            style: TextStyle(
+              color: FlutterFlowTheme.of(context).primaryText,
+            ),
+          ),
+          duration: Duration(milliseconds: 4000),
+          backgroundColor: FlutterFlowTheme.of(context).secondary,
+        ),
+      );
+      _model.cart = await queryCartRecordOnce(
+        queryBuilder: (cartRecord) => cartRecord
+            .where('user', isEqualTo: currentUserReference)
+            .where('isDelivered', isEqualTo: false)
+            .where('isPaid', isEqualTo: false),
+      );
+
+      var orderRecordReference = OrderRecord.collection.doc();
+      await orderRecordReference.set({
+        ...createOrderRecordData(
+          userref: currentUserReference,
+          txref: valueOrDefault<String>(
+            widget.data?.toString(),
+            '\$.reference',
+          ),
+          transactionid: getJsonField(
+            widget.data,
+            r'''$.id''',
+          ).toString().toString(),
+          amount: getJsonField(
+            widget.data,
+            r'''$.amount''',
+          ),
+        ),
+        'cartitems': _model.cart?.map((e) => e.reference).toList(),
+        'created': FieldValue.serverTimestamp(),
+      });
+      _model.created = OrderRecord.getDocumentFromData({
+        ...createOrderRecordData(
+          userref: currentUserReference,
+          txref: valueOrDefault<String>(
+            widget.data?.toString(),
+            '\$.reference',
+          ),
+          transactionid: getJsonField(
+            widget.data,
+            r'''$.id''',
+          ).toString().toString(),
+          amount: getJsonField(
+            widget.data,
+            r'''$.amount''',
+          ),
+        ),
+        'cartitems': _model.cart?.map((e) => e.reference).toList(),
+        'created': DateTime.now(),
+      }, orderRecordReference);
+      while (FFAppState().cartCount <= _model.cart!.length) {
+        await _model.cart![FFAppState().cartCount].reference
+            .update(createCartRecordData(
+          isPaid: true,
+        ));
+        FFAppState().cartCount = FFAppState().cartCount + 1;
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -117,7 +187,10 @@ class _SuccessWidgetState extends State<SuccessWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
               child: Text(
-                '\$${widget.amount}',
+                '\$${getJsonField(
+                  widget.data,
+                  r'''$.amount''',
+                ).toString()}',
                 style: GoogleFonts.getFont(
                   'DM Sans',
                   color: FlutterFlowTheme.of(context).primaryText,

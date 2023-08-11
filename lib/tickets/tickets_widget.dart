@@ -367,6 +367,14 @@ class _TicketsWidgetState extends State<TicketsWidget>
                                                                         50.0),
                                                             child:
                                                                 CachedNetworkImage(
+                                                              fadeInDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                          500),
+                                                              fadeOutDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                          500),
                                                               imageUrl:
                                                                   'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/teams/GzvajSxrHvi1zwJQsfLk/assets/4y6teyknf8fe/@3xlogoMark_outline.png',
                                                               width: 40.0,

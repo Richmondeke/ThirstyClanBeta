@@ -1,12 +1,12 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/cartitem/cartitem_widget.dart';
+import '/components/paymentmodal/paymentmodal_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -67,7 +67,8 @@ class _CartWidgetState extends State<CartWidget> {
       stream: queryCartRecord(
         queryBuilder: (cartRecord) => cartRecord
             .where('user', isEqualTo: currentUserReference)
-            .where('isDelivered', isEqualTo: false),
+            .where('isDelivered', isEqualTo: false)
+            .where('isPaid', isEqualTo: false),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -276,7 +277,8 @@ class _CartWidgetState extends State<CartWidget> {
                               queryBuilder: (cartRecord) => cartRecord
                                   .where('isDelivered', isEqualTo: false)
                                   .where('user',
-                                      isEqualTo: currentUserReference),
+                                      isEqualTo: currentUserReference)
+                                  .where('isPaid', isEqualTo: false),
                             ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
@@ -779,7 +781,6 @@ class _CartWidgetState extends State<CartWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        var _shouldSetState = false;
                         FFAppState().update(() {
                           FFAppState().txref = random_data.randomString(
                             8,
@@ -789,106 +790,26 @@ class _CartWidgetState extends State<CartWidget> {
                             true,
                           );
                         });
-                        _model.res = await actions.paymentPage(
-                          context,
-                          (functions.calculateTotalCart(
-                                      containerProductsRecordList.toList(),
-                                      cartCartRecordList.toList()) +
-                                  functions.calculateTotalCart(
-                                      containerProductsRecordList.toList(),
-                                      cartCartRecordList.toList()) -
-                                  (functions.calculateTotalCart(
-                                          containerProductsRecordList.toList(),
-                                          cartCartRecordList.toList()) *
-                                      0.75))
-                              .round(),
-                        );
-                        _shouldSetState = true;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              _model.res!,
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          enableDrag: false,
+                          useSafeArea: true,
+                          context: context,
+                          builder: (context) {
+                            return GestureDetector(
+                              onTap: () => FocusScope.of(context)
+                                  .requestFocus(_model.unfocusNode),
+                              child: Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: PaymentmodalWidget(
+                                  products: containerProductsRecordList,
+                                  carts: cartCartRecordList,
+                                ),
                               ),
-                            ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).secondary,
-                          ),
-                        );
-                        if (getJsonField(
-                              functions.convertstringtoJSON(_model.res!),
-                              r'''$.status''',
-                            ) ==
-                            true) {
-                          await CheckoutsRecord.collection.doc().set({
-                            ...createCheckoutsRecordData(
-                              name: currentUserDisplayName,
-                              amount: functions.calculateTotalCart(
-                                  containerProductsRecordList.toList(),
-                                  cartCartRecordList.toList()),
-                              status: 'true',
-                              tax: functions.calculateTotalCart(
-                                      containerProductsRecordList.toList(),
-                                      cartCartRecordList.toList()) -
-                                  (functions.calculateTotalCart(
-                                          containerProductsRecordList.toList(),
-                                          cartCartRecordList.toList()) *
-                                      0.75),
-                              vendorName: 'Paystack',
-                            ),
-                            'created_at': FieldValue.serverTimestamp(),
-                          });
-
-                          context.pushNamed(
-                            'Success',
-                            pathParameters: {
-                              'status': serializeParam(
-                                _model.res,
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                            queryParameters: {
-                              'amount': serializeParam(
-                                functions
-                                    .calculateTotalCart(
-                                        containerProductsRecordList.toList(),
-                                        cartCartRecordList.toList())
-                                    .toString(),
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                            extra: <String, dynamic>{
-                              kTransitionInfoKey: TransitionInfo(
-                                hasTransition: true,
-                                transitionType: PageTransitionType.bottomToTop,
-                              ),
-                            },
-                          );
-
-                          if (_shouldSetState) setState(() {});
-                          return;
-                        } else {
-                          context.pushNamed(
-                            'Successnot',
-                            queryParameters: {
-                              'amount': serializeParam(
-                                functions
-                                    .calculateTotalCart(
-                                        containerProductsRecordList.toList(),
-                                        cartCartRecordList.toList())
-                                    .toString(),
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                          );
-
-                          if (_shouldSetState) setState(() {});
-                          return;
-                        }
-
-                        if (_shouldSetState) setState(() {});
+                            );
+                          },
+                        ).then((value) => setState(() {}));
                       },
                       child: Container(
                         width: double.infinity,

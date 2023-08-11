@@ -135,6 +135,12 @@ class FFAppState extends ChangeNotifier {
     _NewCart = _value;
     prefs.setString('ff_NewCart', jsonEncode(_value));
   }
+
+  int _cartCount = 0;
+  int get cartCount => _cartCount;
+  set cartCount(int _value) {
+    _cartCount = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

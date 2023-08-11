@@ -36,11 +36,17 @@ class CartRecord extends FirestoreRecord {
   bool get isDelivered => _isDelivered ?? false;
   bool hasIsDelivered() => _isDelivered != null;
 
+  // "isPaid" field.
+  bool? _isPaid;
+  bool get isPaid => _isPaid ?? false;
+  bool hasIsPaid() => _isPaid != null;
+
   void _initializeFields() {
     _quantity = castToType<int>(snapshotData['Quantity']);
     _user = snapshotData['user'] as DocumentReference?;
     _productref = snapshotData['productref'] as DocumentReference?;
     _isDelivered = snapshotData['isDelivered'] as bool?;
+    _isPaid = snapshotData['isPaid'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -81,6 +87,7 @@ Map<String, dynamic> createCartRecordData({
   DocumentReference? user,
   DocumentReference? productref,
   bool? isDelivered,
+  bool? isPaid,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -88,6 +95,7 @@ Map<String, dynamic> createCartRecordData({
       'user': user,
       'productref': productref,
       'isDelivered': isDelivered,
+      'isPaid': isPaid,
     }.withoutNulls,
   );
 
@@ -102,12 +110,13 @@ class CartRecordDocumentEquality implements Equality<CartRecord> {
     return e1?.quantity == e2?.quantity &&
         e1?.user == e2?.user &&
         e1?.productref == e2?.productref &&
-        e1?.isDelivered == e2?.isDelivered;
+        e1?.isDelivered == e2?.isDelivered &&
+        e1?.isPaid == e2?.isPaid;
   }
 
   @override
   int hash(CartRecord? e) => const ListEquality()
-      .hash([e?.quantity, e?.user, e?.productref, e?.isDelivered]);
+      .hash([e?.quantity, e?.user, e?.productref, e?.isDelivered, e?.isPaid]);
 
   @override
   bool isValidKey(Object? o) => o is CartRecord;

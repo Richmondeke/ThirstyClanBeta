@@ -1,8 +1,11 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
+import '/backend/stripe/payment_manager.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_web_view.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +15,15 @@ class PaymentmodalModel extends FlutterFlowModel {
   ///  Local state fields for this component.
 
   String? referencee;
+
+  ///  State fields for stateful widgets in this component.
+
+  // Stores action output result for [Stripe Payment] action in Container widget.
+  String? paymentId;
+  // Stores action output result for [Custom Action - paymentPage] action in Row widget.
+  dynamic? res;
+  // Stores action output result for [Backend Call - API (paystack)] action in Row widget.
+  ApiCallResponse? paymenturl;
 
   /// Initialization and disposal methods.
 

@@ -46,7 +46,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
       onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).warning,
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             await showModalBottomSheet(
@@ -84,7 +84,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                   width: MediaQuery.sizeOf(context).width * 1.0,
                   height: 160.0,
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primaryBackground,
+                    color: FlutterFlowTheme.of(context).warning,
                   ),
                   child: Padding(
                     padding:
@@ -121,18 +121,7 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                   'THIRSTYMAN',
                                 ),
                                 maxLines: 1,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .bodyMediumFamily,
-                                      fontSize: 32.0,
-                                      fontWeight: FontWeight.w500,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMediumFamily),
-                                    ),
+                                style: FlutterFlowTheme.of(context).labelLarge,
                               ),
                             ),
                           ],
@@ -496,9 +485,8 @@ class _HomenewWidgetState extends State<HomenewWidget> {
                                                                     context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMediumFamily,
+                                                                  fontFamily:
+                                                                      'Kyrilla',
                                                                   fontSize:
                                                                       14.0,
                                                                   useGoogleFonts: GoogleFonts
