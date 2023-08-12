@@ -354,9 +354,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'Successnot',
               path: 'successnot/:data',
               builder: (context, params) => SuccessnotWidget(
-                amount: params.getParam('amount', ParamType.String),
-                txnreference: params.getParam('txnreference', ParamType.String),
-                status: params.getParam('status', ParamType.String),
                 data: params.getParam('data', ParamType.JSON),
               ),
             ),

@@ -13,15 +13,9 @@ export 'successnot_model.dart';
 class SuccessnotWidget extends StatefulWidget {
   const SuccessnotWidget({
     Key? key,
-    this.amount,
-    this.txnreference,
-    this.status,
     required this.data,
   }) : super(key: key);
 
-  final String? amount;
-  final String? txnreference;
-  final String? status;
   final dynamic data;
 
   @override
@@ -120,7 +114,7 @@ class _SuccessnotWidgetState extends State<SuccessnotWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
               child: Text(
-                '\$${widget.amount}',
+                '\$',
                 style: TextStyle(
                   fontFamily: 'Kyrilla',
                   color: FlutterFlowTheme.of(context).primaryText,

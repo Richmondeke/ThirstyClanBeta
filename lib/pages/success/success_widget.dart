@@ -101,7 +101,9 @@ class _SuccessWidgetState extends State<SuccessWidget> {
             .update(createCartRecordData(
           isPaid: true,
         ));
-        FFAppState().cartCount = FFAppState().cartCount + 1;
+        setState(() {
+          FFAppState().cartCount = FFAppState().cartCount + 1;
+        });
       }
     });
 
